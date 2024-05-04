@@ -1,0 +1,6 @@
+@CaptureIt_HostAddress = http://localhost:5062
+
+GET {{CaptureIt_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
