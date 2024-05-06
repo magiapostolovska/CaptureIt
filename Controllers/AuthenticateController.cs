@@ -67,7 +67,7 @@ namespace CaptureIt.Controllers
 
 
         [HttpPost("login")]
-        public async Task<ActionResult> Login(LoginModel loginModel)
+        public async Task<ActionResult<LoginResponse>> Login(LoginModel loginModel)
         {
             if (!ModelState.IsValid)
             {
@@ -87,24 +87,35 @@ namespace CaptureIt.Controllers
                     
             }
             string token = CreateToken(user);
-            return Ok(token);
-           
+
+            var loginResponse = new LoginResponse
+            {
+                UserId = user.UserId,
+                Token = token,
+                Username = user.Username
+                   
+            };
+
+            return Ok(loginResponse);
+
         }
 
         private string CreateToken(User user)
         {
             List<Claim> claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Username),
+                new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString())
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AppSettings:Token").Value!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
             var token = new JwtSecurityToken(
                 claims: claims,
-                expires: DateTime.Now.AddDays(1),
+                expires: DateTime.Now.AddHours(1),
                 signingCredentials: creds
                 );
+
             var jwt = new JwtSecurityTokenHandler().WriteToken(token);
             return jwt;
         }
