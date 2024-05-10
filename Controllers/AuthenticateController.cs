@@ -74,7 +74,7 @@ namespace CaptureIt.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = await _userRepository.GetByUsername(loginModel.Username);
+            var user = await _userService.GetByUsername(loginModel.Username);
 
             if (user == null)
             {
@@ -100,7 +100,7 @@ namespace CaptureIt.Controllers
 
         }
 
-        private string CreateToken(User user)
+        private string CreateToken(UserResponse user)
         {
             List<Claim> claims = new List<Claim>
             {
@@ -113,6 +113,7 @@ namespace CaptureIt.Controllers
             var token = new JwtSecurityToken(
                 claims: claims,
                 expires: DateTime.Now.AddHours(1),
+
                 signingCredentials: creds
                 );
 

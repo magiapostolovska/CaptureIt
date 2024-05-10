@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.Event;
 using CaptureIt.Services;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
+using CaptureIt.Models;
 
 namespace CaptureIt.Controllers
 {
@@ -33,14 +36,25 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<EventResponse>> Get(int id)
         {
+            var userId = HttpContext.Items["UserId"] as string;
             var @event = await _eventService.GetById(id);
             if (@event == null)
             {
                 _logger.LogError($"Event with id {id} not found.");
                 return NotFound($"Event with id {id} not found.");
             }
+
+            if (!@event.Participants.Any(p => p.UserId.ToString() == userId))
+            {
+                // If the user is not a participant, return unauthorized
+                _logger.LogError($"User {userId} is not authorized to access event with id {id}.");
+                return Unauthorized($"User is not authorized to access event with id {id}.");
+            }
+
+
             return Ok(@event);
         }
 

@@ -150,3 +150,6 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Debug\net8.0\CaptureIt.genruntimeconfig
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Debug\net8.0\ref\CaptureIt.dll
 C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\BCrypt.Net-Next.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Debug\net8.0\CaptureIt.sourcelink.json
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\MailKit.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\MimeKit.dll

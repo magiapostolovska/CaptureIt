@@ -12,5 +12,6 @@ namespace CaptureIt.Services
         Task<UserResponse> Update(int id, UserRequest userRequest);
         Task<bool> Delete(int id);
         Task<UserResponse> Register(RegisterModel registerModel);
+        Task<UserResponse> GetByUsername(string username); 
     }
 }

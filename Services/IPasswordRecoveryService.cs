@@ -5,6 +5,8 @@ namespace CaptureIt.Services
 {
     public interface IPasswordRecoveryService
     {
-     
+        Task Add(int userId, int recoveryCode, DateTime expirationTime);
+
+
     }
 }

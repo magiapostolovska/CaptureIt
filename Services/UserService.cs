@@ -69,6 +69,13 @@ namespace CaptureIt.Services
             await _userRepository.Add(user);
             return _mapper.Map<UserResponse>(user);
         }
-       
+
+        public async Task<UserResponse> GetByUsername(string username)
+        {
+            var user = await _userRepository.GetByUsername(username);
+            return _mapper.Map<UserResponse>(user);
+        }
+
     }
+  
 }

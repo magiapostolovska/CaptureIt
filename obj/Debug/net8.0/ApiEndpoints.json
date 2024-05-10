@@ -706,6 +706,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "CaptureIt.Controllers.PasswordRecoveryController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/PasswordRecovery/forgot-password",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "request",
+        "Type": "CaptureIt.DTOs.PasswordRecoveryRequest.PasswordRecoveryRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CaptureIt.Controllers.PictureController",
     "Method": "Get",
     "RelativePath": "api/Picture",
