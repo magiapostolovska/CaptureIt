@@ -40,29 +40,29 @@ public partial class CaptureItContext : DbContext
         modelBuilder.Entity<Album>(entity =>
         {
             entity.HasOne(d => d.Creator).WithMany(p => p.Albums)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Albums_Users");
 
             entity.HasOne(d => d.Event).WithMany(p => p.Albums)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Albums_Events");
         });
 
         modelBuilder.Entity<Comment>(entity =>
         {
             entity.HasOne(d => d.Picture).WithMany(p => p.Comments)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Comments_Pictures");
 
             entity.HasOne(d => d.User).WithMany(p => p.Comments)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Comments_Users");
         });
 
         modelBuilder.Entity<Event>(entity =>
         {
             entity.HasOne(d => d.Owner).WithMany(p => p.Events)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Events_Users");
 
             entity.HasMany(d => d.Participants).WithMany(p => p.EventsNavigation)
@@ -70,11 +70,11 @@ public partial class CaptureItContext : DbContext
                     "EventParticipant",
                     r => r.HasOne<User>().WithMany()
                         .HasForeignKey("ParticipantId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_EventParticipants_Users"),
                     l => l.HasOne<Event>().WithMany()
                         .HasForeignKey("EventId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_EventParticipants_Events"),
                     j =>
                     {
@@ -86,11 +86,11 @@ public partial class CaptureItContext : DbContext
         modelBuilder.Entity<Like>(entity =>
         {
             entity.HasOne(d => d.Picture).WithMany(p => p.Likes)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Likes_Pictures");
 
             entity.HasOne(d => d.User).WithMany(p => p.Likes)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Likes_Users");
         });
 
@@ -106,11 +106,11 @@ public partial class CaptureItContext : DbContext
         modelBuilder.Entity<Picture>(entity =>
         {
             entity.HasOne(d => d.Album).WithMany(p => p.Pictures)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Pictures_Albums");
 
             entity.HasOne(d => d.Author).WithMany(p => p.Pictures)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Pictures_Users");
         });
 
@@ -121,11 +121,11 @@ public partial class CaptureItContext : DbContext
                     "UserBadge",
                     r => r.HasOne<Badge>().WithMany()
                         .HasForeignKey("BadgeId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_UserBadges_Badges"),
                     l => l.HasOne<User>().WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .HasConstraintName("FK_UserBadges_Users"),
                     j =>
                     {

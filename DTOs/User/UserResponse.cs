@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using CaptureIt.DTOs.Event;
 
 namespace CaptureIt.DTOs.User
 {
@@ -22,5 +23,13 @@ namespace CaptureIt.DTOs.User
         public DateOnly? DateOfBirth { get; set; }
 
         public string Username { get; set; } = null!;
+
+        public string? Bio { get; set; }
+        public string? ProfilePicture { get; set; }
+
+        public List<EventResponse> EventsNavigation { get; set; }
+
+
+
     }
 }

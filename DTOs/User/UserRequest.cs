@@ -1,8 +1,9 @@
-﻿namespace CaptureIt.DTOs.User
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CaptureIt.DTOs.User
 {
     public class UserRequest
     {
-        public int UserId { get; set; }
 
         public string FirstName { get; set; } = null!;
 
@@ -19,5 +20,8 @@
         public DateOnly? DateOfBirth { get; set; }
 
         public string Username { get; set; } = null!;
+
+        public string? Bio { get; set; }
+        public string? ProfilePicture { get; set; }
     }
 }

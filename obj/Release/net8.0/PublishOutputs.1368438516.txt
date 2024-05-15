@@ -8,9 +8,11 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\AutoMapper.dl
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Azure.Core.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Azure.Identity.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\BCrypt.Net-Next.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\BouncyCastle.Cryptography.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Castle.Core.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\EntityFramework.SqlServer.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\EntityFramework.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\MailKit.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Authentication.JwtBearer.dll
@@ -38,6 +40,7 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Ide
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.OpenApi.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\MimeKit.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

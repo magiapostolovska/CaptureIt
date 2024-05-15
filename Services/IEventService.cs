@@ -8,9 +8,10 @@ namespace CaptureIt.Services
         Task<IEnumerable<EventResponse>> GetAll();
         Task<EventResponse> GetById(int id);
         Task<EventResponse> Add(EventRequest eventRequest);
-        Task<EventResponse> Update(int id, EventRequest eventRequest);
+        Task<EventResponse> Update(int id, EventUpdate eventupdate);
         Task<bool> Delete(int id);
-        Task<bool> AddParticipantToEvent(int eventId, int userId);
+        Task<EventParticipantList> GetEventParticipant(int eventId);
+        Task<EventParticipantResponse> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest);        
         Task<bool> RemoveParticipantFromEvent(int eventId, int userId);
 
     }

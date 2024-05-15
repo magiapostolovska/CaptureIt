@@ -8,7 +8,7 @@ namespace CaptureIt.Services
         Task<IEnumerable<PictureResponse>> GetAll();
         Task<PictureResponse> GetById(int id);
         Task<PictureResponse> Add(PictureRequest pictureRequest);
-        Task<PictureResponse> Update(int id, PictureRequest pictureRequest);
+        Task<PictureResponse> Update(int id, PictureUpdate pictureUpdate);
         Task<bool> Delete(int id);
     }
 }

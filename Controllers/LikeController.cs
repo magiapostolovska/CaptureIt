@@ -72,39 +72,39 @@ namespace CaptureIt.Controllers
             return CreatedAtAction(nameof(Get), new { id = likeResponse.LikeId }, likeResponse);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, LikeRequest likeRequest)
-        {
-            if (id != likeRequest.LikeId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID does not match LikeId in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match LikeId in the request body.");
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Put(int id, LikeRequest likeRequest)
+        //{
+        //    if (id != likeRequest.LikeId)
+        //    {
+        //        _logger.LogError($"Mismatched IDs: URL ID does not match LikeId in the request body.");
+        //        return BadRequest("Mismatched IDs: URL ID does not match LikeId in the request body.");
+        //    }
 
-            var user = await _userService.GetById(likeRequest.UserId);
-            if (user == null)
-            {
-                _logger.LogError($"User with ID {likeRequest.UserId} not found.");
-                return NotFound($"User with ID {likeRequest.UserId} not found.");
-            }
+        //    var user = await _userService.GetById(likeRequest.UserId);
+        //    if (user == null)
+        //    {
+        //        _logger.LogError($"User with ID {likeRequest.UserId} not found.");
+        //        return NotFound($"User with ID {likeRequest.UserId} not found.");
+        //    }
 
-            var picture = await _pictureService.GetById(likeRequest.PictureId);
-            if (picture == null)
-            {
-                _logger.LogError($"Picture with ID {likeRequest.PictureId} not found.");
-                return NotFound($"Picture with ID {likeRequest.PictureId} not found.");
-            }
+        //    var picture = await _pictureService.GetById(likeRequest.PictureId);
+        //    if (picture == null)
+        //    {
+        //        _logger.LogError($"Picture with ID {likeRequest.PictureId} not found.");
+        //        return NotFound($"Picture with ID {likeRequest.PictureId} not found.");
+        //    }
 
-            var result = await _likeService.Update(id, likeRequest);
+        //    var result = await _likeService.Update(id, likeRequest);
 
-            if (result == null)
-            {
-                _logger.LogError($"Failed to update like with ID {id}.");
-                return StatusCode(500, $"Failed to update like with ID {id}.");
-            }
+        //    if (result == null)
+        //    {
+        //        _logger.LogError($"Failed to update like with ID {id}.");
+        //        return StatusCode(500, $"Failed to update like with ID {id}.");
+        //    }
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -116,7 +116,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"Like with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Like with ID {id} successfully removed from the picture.");
         }
     }
 }

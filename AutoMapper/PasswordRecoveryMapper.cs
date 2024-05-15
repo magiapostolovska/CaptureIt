@@ -10,7 +10,8 @@ namespace CaptureIt.AutoMapper
         public PasswordRecoveryMapper() 
         {
             CreateMap<PasswordRecoveryResponse, PasswordRecovery>();
-            
+            CreateMap<PasswordRecoveryRequest, PasswordRecovery>();
+            CreateMap<PasswordRecovery, PasswordRecoveryResponse>();
         }
     }
 }

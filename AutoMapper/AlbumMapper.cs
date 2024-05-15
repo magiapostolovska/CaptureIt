@@ -10,6 +10,7 @@ namespace CaptureIt.AutoMapper
         {
             CreateMap<AlbumRequest, Album>();
             CreateMap<Album, AlbumResponse>();
+            CreateMap<AlbumUpdate, Album>();
         }
     }
 }

@@ -10,13 +10,17 @@ namespace CaptureIt.Controllers
     public class PictureController : ControllerBase
     {
         private readonly IPictureService _pictureService;
+        private readonly ILikeService _likeService;
+        private readonly ICommentService _commentService;
         private readonly IAlbumService _albumService;
         private readonly IUserService _userService;
         private readonly ILogger<PictureController> _logger;
 
-        public PictureController(IPictureService pictureService, IAlbumService albumService, IUserService userService, ILogger<PictureController> logger)
+        public PictureController(IPictureService pictureService, ILikeService likeService, ICommentService commentService, IAlbumService albumService, IUserService userService, ILogger<PictureController> logger)
         {
             _pictureService = pictureService;
+            _likeService = likeService; 
+            _commentService = commentService;
             _albumService = albumService;
             _userService = userService;
             _logger = logger;
@@ -72,39 +76,39 @@ namespace CaptureIt.Controllers
             return CreatedAtAction(nameof(Get), new { id = pictureResponse.PictureId }, pictureResponse);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, PictureRequest pictureRequest)
-        {
-            if (id != pictureRequest.PictureId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID {id} does not match PictureId {pictureRequest.PictureId} in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match PictureId in the request body.");
-            }
+        //[HttpPut("{id}")]
+        //public async Task<IActionResult> Put(int id, PictureRequest pictureRequest)
+        //{
+        //    if (id != pictureRequest.PictureId)
+        //    {
+        //        _logger.LogError($"Mismatched IDs: URL ID {id} does not match PictureId {pictureRequest.PictureId} in the request body.");
+        //        return BadRequest("Mismatched IDs: URL ID does not match PictureId in the request body.");
+        //    }
 
-            var album = await _albumService.GetById(pictureRequest.AlbumId);
-            if (album == null)
-            {
-                _logger.LogError($"Album with ID {pictureRequest.AlbumId} not found.");
-                return NotFound($"Album with ID {pictureRequest.AlbumId} not found.");
-            }
+        //    var album = await _albumService.GetById(pictureRequest.AlbumId);
+        //    if (album == null)
+        //    {
+        //        _logger.LogError($"Album with ID {pictureRequest.AlbumId} not found.");
+        //        return NotFound($"Album with ID {pictureRequest.AlbumId} not found.");
+        //    }
 
-            var author = await _userService.GetById(pictureRequest.AuthorId);
-            if (author == null)
-            {
-                _logger.LogError($"User with ID {pictureRequest.AuthorId} not found.");
-                return NotFound($"User with ID {pictureRequest.AuthorId} not found.");
-            }
+        //    var author = await _userService.GetById(pictureRequest.AuthorId);
+        //    if (author == null)
+        //    {
+        //        _logger.LogError($"User with ID {pictureRequest.AuthorId} not found.");
+        //        return NotFound($"User with ID {pictureRequest.AuthorId} not found.");
+        //    }
 
-            var result = await _pictureService.Update(id, pictureRequest);
+        //    var result = await _pictureService.Update(id, pictureRequest);
 
-            if (result == null)
-            {
-                _logger.LogError($"Failed to update picture with ID {id}.");
-                return StatusCode(500, $"Failed to update picture with ID {id}.");
-            }
+        //    if (result == null)
+        //    {
+        //        _logger.LogError($"Failed to update picture with ID {id}.");
+        //        return StatusCode(500, $"Failed to update picture with ID {id}.");
+        //    }
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -116,7 +120,34 @@ namespace CaptureIt.Controllers
                 return NotFound($"Picture with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Picture with ID {id} successfully removed from the album.");
         }
+
+        [HttpGet("likes/{id}")]
+        public async Task<string> GetLikeCount(int id)
+        {
+            var likeCount = await _likeService.GetLikeCount(id);
+            var picture = await _pictureService.GetById(id);
+            if (picture != null)
+            {
+                var pictureUpdate = new PictureUpdate { LikeCount = likeCount };
+                await _pictureService.Update(id, pictureUpdate);
+            }
+            return ($"Likes: {likeCount}");
+        }
+
+        [HttpGet("comments/{id}")]
+        public async Task<string> GetCommentCount(int id)
+        {
+            var commentCount = await _commentService.GetCommentCount(id);
+            var picture = await _pictureService.GetById(id);
+            if (picture != null)
+            {
+                var pictureUpdate = new PictureUpdate { CommentCount = commentCount };
+                await _pictureService.Update(id, pictureUpdate);
+            }
+            return ($"Comments: {commentCount}");
+        }
+
     }
 }

@@ -36,7 +36,7 @@ namespace CaptureIt.Services
             return _mapper.Map<AlbumResponse>(album);
 
         }
-        public async Task<AlbumResponse> Update(int id, AlbumRequest albumRequest)
+        public async Task<AlbumResponse> Update(int id, AlbumUpdate albumUpdate)
         {
             var album = await _albumRepository.GetById(id);
             if (album == null)
@@ -44,7 +44,7 @@ namespace CaptureIt.Services
                 return null;
             }
 
-            _mapper.Map(albumRequest, album);
+            _mapper.Map(albumUpdate, album);
 
             await _albumRepository.Update(album);
             return _mapper.Map<AlbumResponse>(album);

@@ -85,8 +85,8 @@
         "IsRequired": true
       },
       {
-        "Name": "albumRequest",
-        "Type": "CaptureIt.DTOs.Album.AlbumRequest",
+        "Name": "albumUpdate",
+        "Type": "CaptureIt.DTOs.Album.AlbumUpdate",
         "IsRequired": true
       }
     ],
@@ -246,8 +246,8 @@
         "IsRequired": true
       },
       {
-        "Name": "badgeRequest",
-        "Type": "CaptureIt.DTOs.Bagde.BadgeRequest",
+        "Name": "badgeUpdate",
+        "Type": "CaptureIt.DTOs.Bagde.BadgeUpdate",
         "IsRequired": true
       }
     ],
@@ -355,8 +355,8 @@
         "IsRequired": true
       },
       {
-        "Name": "commentRequest",
-        "Type": "CaptureIt.DTOs.Comment.CommentRequest",
+        "Name": "commentUpdate",
+        "Type": "CaptureIt.DTOs.Comment.CommentUpdate",
         "IsRequired": true
       }
     ],
@@ -426,9 +426,9 @@
   },
   {
     "ContainingType": "CaptureIt.Controllers.EventController",
-    "Method": "AddParticipantToEvent",
-    "RelativePath": "api/Event/{eventId}/participants/{userId}",
-    "HttpMethod": "POST",
+    "Method": "RemoveParticipantFromEvent",
+    "RelativePath": "api/Event/{eventId}/participant/{userId}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -447,9 +447,9 @@
   },
   {
     "ContainingType": "CaptureIt.Controllers.EventController",
-    "Method": "RemoveParticipantFromEvent",
-    "RelativePath": "api/Event/{eventId}/participants/{userId}",
-    "HttpMethod": "DELETE",
+    "Method": "GetEventParticipantsByEventId",
+    "RelativePath": "api/Event/{eventId}/participants",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
@@ -457,14 +457,19 @@
         "Name": "eventId",
         "Type": "System.Int32",
         "IsRequired": true
-      },
-      {
-        "Name": "userId",
-        "Type": "System.Int32",
-        "IsRequired": true
       }
     ],
-    "ReturnTypes": []
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[CaptureIt.DTOs.Event.EventParticipantResponse, CaptureIt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "CaptureIt.Controllers.EventController",
@@ -506,8 +511,8 @@
         "IsRequired": true
       },
       {
-        "Name": "eventRequest",
-        "Type": "CaptureIt.DTOs.Event.EventRequest",
+        "Name": "eventUpdate",
+        "Type": "CaptureIt.DTOs.Event.EventUpdate",
         "IsRequired": true
       }
     ],
@@ -530,42 +535,22 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "CaptureIt.Controllers.EventParticipantController",
-    "Method": "Get",
-    "RelativePath": "api/EventParticipant",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Collections.Generic.IEnumerable\u00601[[CaptureIt.DTOs.EventParticipant.EventParticipantResponse, CaptureIt, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "CaptureIt.Controllers.EventParticipantController",
-    "Method": "Post",
-    "RelativePath": "api/EventParticipant",
+    "ContainingType": "CaptureIt.Controllers.EventController",
+    "Method": "AddParticipantToEvent",
+    "RelativePath": "api/Event/participants",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
         "Name": "eventParticipantRequest",
-        "Type": "CaptureIt.DTOs.EventParticipant.EventParticipantRequest",
+        "Type": "CaptureIt.DTOs.Event.EventParticipantRequest",
         "IsRequired": true
       }
     ],
     "ReturnTypes": [
       {
-        "Type": "CaptureIt.DTOs.EventParticipant.EventParticipantResponse",
+        "Type": "CaptureIt.DTOs.Event.EventParticipantResponse",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -574,27 +559,6 @@
         "StatusCode": 200
       }
     ]
-  },
-  {
-    "ContainingType": "CaptureIt.Controllers.EventParticipantController",
-    "Method": "Delete",
-    "RelativePath": "api/EventParticipant/{eventId}/{participantId}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "eventId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "participantId",
-        "Type": "System.Int32",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
   },
   {
     "ContainingType": "CaptureIt.Controllers.LikeController",
@@ -670,27 +634,6 @@
   },
   {
     "ContainingType": "CaptureIt.Controllers.LikeController",
-    "Method": "Put",
-    "RelativePath": "api/Like/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "likeRequest",
-        "Type": "CaptureIt.DTOs.Like.LikeRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CaptureIt.Controllers.LikeController",
     "Method": "Delete",
     "RelativePath": "api/Like/{id}",
     "HttpMethod": "DELETE",
@@ -700,6 +643,32 @@
       {
         "Name": "id",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CaptureIt.Controllers.PasswordRecoveryController",
+    "Method": "ForgotPassword",
+    "RelativePath": "api/PasswordRecovery/change-password",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "username",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "recoveryCode",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "newPassword",
+        "Type": "CaptureIt.DTOs.PasswordRecovery.NewPassword",
         "IsRequired": true
       }
     ],
@@ -795,27 +764,6 @@
   },
   {
     "ContainingType": "CaptureIt.Controllers.PictureController",
-    "Method": "Put",
-    "RelativePath": "api/Picture/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Int32",
-        "IsRequired": true
-      },
-      {
-        "Name": "pictureRequest",
-        "Type": "CaptureIt.DTOs.Picture.PictureRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "CaptureIt.Controllers.PictureController",
     "Method": "Delete",
     "RelativePath": "api/Picture/{id}",
     "HttpMethod": "DELETE",
@@ -829,6 +777,58 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CaptureIt.Controllers.PictureController",
+    "Method": "GetCommentCount",
+    "RelativePath": "api/Picture/comments/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "CaptureIt.Controllers.PictureController",
+    "Method": "GetLikeCount",
+    "RelativePath": "api/Picture/likes/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.String",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "CaptureIt.Controllers.UserController",
@@ -852,32 +852,6 @@
   },
   {
     "ContainingType": "CaptureIt.Controllers.UserController",
-    "Method": "Post",
-    "RelativePath": "api/User",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "userRequest",
-        "Type": "CaptureIt.DTOs.User.UserRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": [
-      {
-        "Type": "CaptureIt.DTOs.User.UserResponse",
-        "MediaTypes": [
-          "text/plain",
-          "application/json",
-          "text/json"
-        ],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "CaptureIt.Controllers.UserController",
     "Method": "Get",
     "RelativePath": "api/User/{id}",
     "HttpMethod": "GET",
@@ -916,8 +890,8 @@
         "IsRequired": true
       },
       {
-        "Name": "userRequest",
-        "Type": "CaptureIt.DTOs.User.UserRequest",
+        "Name": "userUpdate",
+        "Type": "CaptureIt.DTOs.User.UserUpdate",
         "IsRequired": true
       }
     ],

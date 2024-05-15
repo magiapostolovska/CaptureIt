@@ -30,6 +30,17 @@ namespace CaptureIt.Middleware
                 return;
             }
 
+            if(context.Request.Path.StartsWithSegments("/api/Authenticate/register"))
+            {
+                await _next(context);
+                return;
+            }
+
+            if (context.Request.Path.StartsWithSegments("/api/PasswordRecovery/forgot-password"))
+            {
+                await _next(context);
+            }
+
             if (token == null)
             {
                 context.Response.StatusCode = 401;

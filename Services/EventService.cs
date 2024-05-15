@@ -9,11 +9,13 @@ namespace CaptureIt.Services
     public class EventService : IEventService
     {
         private readonly IEventRepository _eventRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IMapper _mapper;
 
-        public EventService(IEventRepository eventRepository, IMapper mapper)
+        public EventService(IEventRepository eventRepository, IUserRepository userRepository, IMapper mapper)
         {
             _eventRepository = eventRepository;
+            _userRepository = userRepository;
             _mapper = mapper;
         }
 
@@ -36,7 +38,7 @@ namespace CaptureIt.Services
             return _mapper.Map<EventResponse>(@event);
         }
 
-        public async Task<EventResponse> Update(int id, EventRequest eventRequest)
+        public async Task<EventResponse> Update(int id, EventUpdate eventUpdate)
         {
             var @event = await _eventRepository.GetById(id);
             if (@event == null)
@@ -44,7 +46,7 @@ namespace CaptureIt.Services
                 return null;
             }
 
-            _mapper.Map(eventRequest, @event);
+            _mapper.Map(eventUpdate, @event);
 
             await _eventRepository.Update(@event);
             return _mapper.Map<EventResponse>(@event);
@@ -61,9 +63,46 @@ namespace CaptureIt.Services
             await _eventRepository.Delete(id);
             return true;
         }
-        public async Task<bool> AddParticipantToEvent(int eventId, int userId)
+
+        public async Task<EventParticipantList> GetEventParticipant(int eventId)
         {
-            return await _eventRepository.AddParticipantToEvent(eventId, userId);
+            var eventEntity = await _eventRepository.GetEventParticipant(eventId);
+
+            if (eventEntity == null)
+            {
+                return null;
+            }
+            var participantUserIds = eventEntity.Participants.Select(p => p.UserId).ToList();
+
+
+            var eventParticipantResponse = new EventParticipantList
+            {
+                EventId = eventEntity.EventId,
+                UserId = participantUserIds
+
+            };
+
+            return eventParticipantResponse;
+        }
+
+
+
+        public async Task<EventParticipantResponse> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest)
+        {
+            var eventEntity = await _eventRepository.AddParticipantToEvent(eventParticipantRequest.EventId, eventParticipantRequest.UserId);
+
+            if (eventEntity == null)
+            {
+                return null;
+            }
+
+            var eventParticipantResponse = new EventParticipantResponse
+            {
+                EventId = eventEntity.EventId,
+                UserId = eventParticipantRequest.UserId
+            };
+
+            return eventParticipantResponse;
         }
 
         public async Task<bool> RemoveParticipantFromEvent(int eventId, int userId)

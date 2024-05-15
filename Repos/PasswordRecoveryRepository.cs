@@ -1,7 +1,5 @@
 ﻿using CaptureIt.Data;
-using CaptureIt.DTOs.PasswordRecoveryRequest;
 using CaptureIt.Models;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data.Entity;
 
@@ -22,5 +20,15 @@ namespace CaptureIt.Repos
             await _context.PasswordRecoveries.AddAsync(recovery);
             await _context.SaveChangesAsync();
         }
+
+        public async Task<PasswordRecovery> GetByUserId(int userId)
+        {
+            return await _context.PasswordRecoveries
+        .Where(u => u.UserId == userId)
+        .OrderBy(u => u.RequestId)
+        .LastOrDefaultAsync();
+        }
+
     }
 }
+

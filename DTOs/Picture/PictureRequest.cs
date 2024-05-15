@@ -2,7 +2,6 @@
 {
     public class PictureRequest
     {
-        public int PictureId { get; set; }
 
         public int AlbumId { get; set; }
 

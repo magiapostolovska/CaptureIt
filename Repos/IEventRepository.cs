@@ -1,4 +1,5 @@
-﻿using CaptureIt.Models;
+﻿using CaptureIt.DTOs.Event;
+using CaptureIt.Models;
 
 namespace CaptureIt.Repos
 {
@@ -9,7 +10,8 @@ namespace CaptureIt.Repos
         Task<Event> Add(Event @event);
         Task<Event> Update(Event @event);
         Task<bool> Delete(int id);
-        Task<bool> AddParticipantToEvent(int eventId, int userId);
+        Task<Event> GetEventParticipant(int eventId);
+        Task<Event> AddParticipantToEvent(int eventId, int userId);        
         Task<bool> RemoveParticipantFromEvent(int eventId, int userId);
 
     }

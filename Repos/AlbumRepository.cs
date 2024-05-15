@@ -49,6 +49,21 @@ namespace CaptureIt.Repos
             {
                 return false;
             }
+
+
+            var picturesToDelete = _context.Pictures.Where(picture => picture.AlbumId == id).ToList();
+            foreach (var picture in picturesToDelete)
+            {
+                var commentsToDelete = _context.Comments.Where(comment => comment.PictureId == picture.PictureId);
+                _context.Comments.RemoveRange(commentsToDelete);
+                var likesToDelete = _context.Likes.Where(like => like.PictureId == picture.PictureId);
+                _context.Likes.RemoveRange(likesToDelete);
+            }
+            
+
+            _context.Pictures.RemoveRange(picturesToDelete);
+
+
             _context.Albums.Remove(album);
             await _context.SaveChangesAsync();
             return true;

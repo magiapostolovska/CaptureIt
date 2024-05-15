@@ -73,29 +73,10 @@ namespace CaptureIt.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, CommentRequest commentRequest)
+        public async Task<IActionResult> Put(int id, CommentUpdate commentUpdate)
         {
-            if (id != commentRequest.CommentId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID does not match CommentId in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match CommentId in the request body.");
-            }
-
-            var user = await _userService.GetById(commentRequest.UserId);
-            if (user == null)
-            {
-                _logger.LogError($"User with ID {commentRequest.UserId} not found.");
-                return NotFound($"User with ID {commentRequest.UserId} not found.");
-            }
-
-            var picture = await _pictureService.GetById(commentRequest.PictureId);
-            if (picture == null)
-            {
-                _logger.LogError($"Picture with ID {commentRequest.PictureId} not found.");
-                return NotFound($"Picture with ID {commentRequest.PictureId} not found.");
-            }
-
-            var result = await _commentService.Update(id, commentRequest);
+            
+            var result = await _commentService.Update(id, commentUpdate);
 
             if (result == null)
             {
@@ -118,7 +99,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"Comment with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Comment with ID {id} successfully removed from the picture.");
         }
 
     }

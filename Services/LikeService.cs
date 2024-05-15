@@ -62,5 +62,10 @@ namespace CaptureIt.Services
             await _likeRepository.Delete(id);
             return true;
         }
+
+        public async Task<int> GetLikeCount(int pictureId)
+        {
+            return await _likeRepository.GetLikeCount(pictureId);
+        }
     }
 }

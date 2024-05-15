@@ -10,5 +10,7 @@ namespace CaptureIt.Services
         Task<LikeResponse> Add(LikeRequest likeRequest);
         Task<LikeResponse> Update(int id, LikeRequest likeRequest);
         Task<bool> Delete(int id);
+        Task<int> GetLikeCount(int pictureId);
+        
     }
 }

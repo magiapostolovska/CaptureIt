@@ -13,7 +13,10 @@ namespace CaptureIt.Repos
         Task<bool> Delete(int id);
         Task<User> Register(RegisterModel registerModel);
         Task<User> GetByUsername(string username);
-        
+        Task<bool> AddBadge(int userId, int badgeId);
+        Task<bool> RemoveBadge(int userId, int badgeId);
+
+
 
     }
 }

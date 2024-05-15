@@ -9,5 +9,6 @@ namespace CaptureIt.Repos
         Task<Comment> Add(Comment comment);
         Task<Comment> Update(Comment comment);
         Task<bool> Delete(int id);
+        Task<int> GetCommentCount(int pictureId);
     }
 }

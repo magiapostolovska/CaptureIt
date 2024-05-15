@@ -65,46 +65,22 @@ namespace CaptureIt.Controllers
                 return NotFound($"User with id {albumRequest.CreatorId} not found.");
             }
 
-            var existingAlbum = await _albumService.GetById(albumRequest.AlbumId);
-            if (existingAlbum != null)
-            {
-                _logger.LogError($"Album with id {albumRequest.AlbumId} already exists in the database and cannot be added again.");
-                return BadRequest($"Album with id {albumRequest.AlbumId} already exists in the database and cannot be added again.");
-            }
+            
 
             var albumResponse = await _albumService.Add(albumRequest);
             if (albumResponse == null)
             {
-                _logger.LogError($"Failed to add album with id {albumRequest.AlbumId} to the Event with id {albumRequest.EventId}.");
-                return StatusCode(500, $"Failed to add album with id {albumRequest.AlbumId} to the Event with id {albumRequest.EventId}.");
+                _logger.LogError($"Failed to add album to the Event.");
+                return StatusCode(500, $"Failed to add album to the Event.");
             }
             return CreatedAtAction(nameof(Get), new { id = albumResponse.AlbumId }, albumResponse); 
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, AlbumRequest albumRequest)
+        public async Task<IActionResult> Put(int id, AlbumUpdate albumUpdate)
         {
-            if (id != albumRequest.AlbumId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID {id} does not match AlbumId {albumRequest.AlbumId} in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match AlbumId in the request body.");
-            }
-
-            var @event = await _eventService.GetById(albumRequest.EventId);
-            if (@event == null)
-            {
-                _logger.LogError($"Event with ID {albumRequest.EventId} not found.");
-                return NotFound($"Event with ID {albumRequest.EventId} not found.");
-            }
-
-            var user = await _userService.GetById(albumRequest.CreatorId);
-            if (user == null)
-            {
-                _logger.LogError($"User with ID {albumRequest.CreatorId} not found.");
-                return NotFound($"User with ID {albumRequest.CreatorId} not found.");
-            }
-
-            var result = await _albumService.Update(id, albumRequest);
+           
+            var result = await _albumService.Update(id, albumUpdate);
 
             if (result == null)
             {
@@ -127,7 +103,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"Album with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Album with ID {id} successfully removed from the event.");
         }
 
     }

@@ -1,4 +1,5 @@
 ﻿using CaptureIt.Data;
+using CaptureIt.DTOs.Event;
 using CaptureIt.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -51,53 +52,83 @@ namespace CaptureIt.Repos
                 return false;
             }
 
+            var albumsToDelete = _context.Albums.Where(album => album.EventId == id).ToList();
+            foreach (var album in albumsToDelete)
+            {
+                var albumId = album.AlbumId;
+                var picturesToDelete = _context.Pictures.Where(picture => picture.AlbumId == albumId).ToList();
+                foreach (var picture in picturesToDelete)
+                {
+                    var commentsToDelete = _context.Comments.Where(comment => comment.PictureId == picture.PictureId);
+                    _context.Comments.RemoveRange(commentsToDelete);
+                    var likesToDelete = _context.Likes.Where(like => like.PictureId == picture.PictureId);
+                    _context.Likes.RemoveRange(likesToDelete);
+                }
+
+                _context.Pictures.RemoveRange(picturesToDelete);
+                _context.Albums.RemoveRange(albumsToDelete);
+
+                await _context.Database.ExecuteSqlInterpolatedAsync($"DELETE FROM EventParticipants WHERE EventId = {id}");
+            }
             _context.Events.Remove(@event);
-            await _context.SaveChangesAsync();
-            return true;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+
+        public async Task<Event> GetEventParticipant(int eventId)
+        {
+            return await _context.Events
+                                        .Include(e => e.Participants)
+                                        .FirstOrDefaultAsync(e => e.EventId == eventId);      
         }
-        public async Task<bool> AddParticipantToEvent(int eventId, int userId)
+
+
+        public async Task<Event> AddParticipantToEvent(int eventId, int userId)
         {
             try
             {
                 var eventEntity = await _context.Events.FindAsync(eventId);
                 var userEntity = await _context.Users.FindAsync(userId);
-                if (eventEntity != null && userEntity != null)
+
+                if (eventEntity == null || userEntity == null)
                 {
-                    eventEntity.Participants.Add(userEntity);
-                    await _context.SaveChangesAsync();
-                    return true;
+                    return null;
                 }
-                return false;
+
+                eventEntity.Participants.Add(userEntity);
+                await _context.SaveChangesAsync();
+
+                return eventEntity;
             }
             catch (Exception ex)
             {
-                return false;
+                return null;
             }
         }
+
 
         public async Task<bool> RemoveParticipantFromEvent(int eventId, int userId)
         {
             try
             {
-                var eventEntity = await _context.Events
-                    .Include(e => e.Participants)
-                    .FirstOrDefaultAsync(e => e.EventId == eventId);
+                var eventEntity = await _context.Events.Include(e => e.Participants).FirstOrDefaultAsync(e => e.EventId == eventId);
 
-                if (eventEntity != null)
+                if (eventEntity == null)
                 {
-                    var userEntity = await _context.Users.FindAsync(userId);
-
-                    if (userEntity != null)
-                    {
-                        eventEntity.Participants.Remove(userEntity);
-
-                        await _context.SaveChangesAsync();
-
-                        return true;
-                    }
+                    return false;
                 }
 
-                return false;
+                var userToRemove = eventEntity.Participants.FirstOrDefault(p => p.UserId == userId);
+                if (userToRemove == null)
+                {
+                    return false;
+                }
+
+                eventEntity.Participants.Remove(userToRemove);
+
+                await _context.SaveChangesAsync();
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -105,8 +136,8 @@ namespace CaptureIt.Repos
             }
         }
 
-    }
+    
 }
-
+}
 
 

@@ -23,10 +23,7 @@ namespace CaptureIt.Repos
 
         public async Task<User> GetById(int id)
         {
-
             return await _context.Users.FirstOrDefaultAsync(u => u.UserId == id);
-
-
         }
 
         public async Task<User> Add(User user)
@@ -81,6 +78,54 @@ namespace CaptureIt.Repos
             return await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
         }
 
+        public async Task<bool> AddBadge(int userId, int badgeId)
+        {
+            try
+            {
+                var userEntity = await _context.Users.FindAsync(userId);
+                var badgeEntity = await _context.Badges.FindAsync(badgeId);
+                if (badgeEntity != null && userEntity != null)
+                {
+                    userEntity.Badges.Add(badgeEntity);
+                    await _context.SaveChangesAsync();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
+
+        public async Task<bool> RemoveBadge(int userId, int badgeId)
+        {
+            try
+            {
+                var userEntity = await _context.Users.Include(e => e.Badges).FirstOrDefaultAsync(e => e.UserId == userId);
+
+                if (userEntity == null)
+                {
+                    return false;
+                }
+
+                var badgeToRemove = userEntity.Badges.FirstOrDefault(p => p.BadgeId == badgeId);
+                if (badgeToRemove == null)
+                {
+                    return false;
+                }
+
+                userEntity.Badges.Remove(badgeToRemove);
+
+                await _context.SaveChangesAsync();
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        } 
     }
 
     

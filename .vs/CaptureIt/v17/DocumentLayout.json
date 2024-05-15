@@ -3,8 +3,8 @@
   "WorkspaceRootPath": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\passwordrecoverycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\passwordrecoverycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -15,104 +15,59 @@
       "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\middleware\\tokenvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:middleware\\tokenvalidation.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:services\\ieventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\eventcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\automapper\\eventmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:automapper\\eventmapper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:properties\\launchsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\dtos\\event\\eventparticipantlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:dtos\\event\\eventparticipantlist.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\commentcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\dtos\\event\\eventparticipantrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:dtos\\event\\eventparticipantrequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:services\\eventservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\repos\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:repos\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\repos\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:repos\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\dtos\\event\\eventparticipantresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:dtos\\event\\eventparticipantresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|c:\\users\\magdalena\\desktop\\captureit\\controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{0F2164E2-B1C6-4388-995C-9631B4C429BE}|CaptureIt.csproj|solutionrelative:controllers\\authenticatecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
-      "VerticalTabListWidth": 100,
+      "VerticalTabListWidth": 217,
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 11,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "launchSettings.json",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Properties\\launchSettings.json",
-              "RelativeDocumentMoniker": "Properties\\launchSettings.json",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Properties\\launchSettings.json",
-              "RelativeToolTip": "Properties\\launchSettings.json",
-              "ViewState": "AQIAAAYAAAAAAAAAAAAqwBoAAAAvAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-09T11:49:28.902Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CommentController.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\CommentController.cs",
-              "RelativeDocumentMoniker": "Controllers\\CommentController.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\CommentController.cs",
-              "RelativeToolTip": "Controllers\\CommentController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:44:47.602Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PasswordRecoveryController.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\PasswordRecoveryController.cs",
-              "RelativeDocumentMoniker": "Controllers\\PasswordRecoveryController.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\PasswordRecoveryController.cs",
-              "RelativeToolTip": "Controllers\\PasswordRecoveryController.cs",
-              "ViewState": "AQIAABwAAAAAAAAAAAAQwAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:30:07.567Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "Event.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Models\\Event.cs",
-              "RelativeDocumentMoniker": "Models\\Event.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Models\\Event.cs",
-              "RelativeToolTip": "Models\\Event.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAowD0AAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:27:50.341Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "EventController.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\EventController.cs",
-              "RelativeDocumentMoniker": "Controllers\\EventController.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\EventController.cs",
-              "RelativeToolTip": "Controllers\\EventController.cs",
-              "ViewState": "AQIAAC8AAAAAAAAAAAAmwEQAAAANAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:26:00.371Z"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 2,
@@ -121,33 +76,48 @@
               "RelativeDocumentMoniker": "appsettings.json",
               "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\appsettings.json",
               "RelativeToolTip": "appsettings.json",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAACFAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAFAQAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-05-09T11:22:50.334Z"
+              "WhenOpened": "2024-05-14T21:53:32.647Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "EventParticipantList.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantList.cs",
+              "RelativeDocumentMoniker": "DTOs\\Event\\EventParticipantList.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantList.cs",
+              "RelativeToolTip": "DTOs\\Event\\EventParticipantList.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-14T21:46:03.758Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "IEventRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Repos\\IEventRepository.cs",
+              "RelativeDocumentMoniker": "Repos\\IEventRepository.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Repos\\IEventRepository.cs",
+              "RelativeToolTip": "Repos\\IEventRepository.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAASAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T17:48:34.501Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 9,
-              "Title": "AuthenticateController.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\AuthenticateController.cs",
-              "RelativeDocumentMoniker": "Controllers\\AuthenticateController.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\AuthenticateController.cs",
-              "RelativeToolTip": "Controllers\\AuthenticateController.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Title": "EventRepository.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Repos\\EventRepository.cs",
+              "RelativeDocumentMoniker": "Repos\\EventRepository.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Repos\\EventRepository.cs",
+              "RelativeToolTip": "Repos\\EventRepository.cs",
+              "ViewState": "AQIAADsAAAAAAAAAAAAswE0AAAAfAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:13:06.202Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "UserController.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\UserController.cs",
-              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\UserController.cs",
-              "RelativeToolTip": "Controllers\\UserController.cs",
-              "ViewState": "AQIAAD8AAAAAAAAAAAAowAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:13:17.198Z"
+              "WhenOpened": "2024-05-13T17:45:51.646Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -157,22 +127,122 @@
               "RelativeDocumentMoniker": "Program.cs",
               "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Program.cs",
               "RelativeToolTip": "Program.cs",
-              "ViewState": "AQIAAGMAAAAAAAAAAAAAAGoAAAA1AAAA",
+              "ViewState": "AQIAAG8AAAAAAAAAAAAAAIIAAAAVAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:12:18.951Z",
+              "WhenOpened": "2024-05-13T17:43:55.631Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "TokenValidation.cs",
-              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Middleware\\TokenValidation.cs",
-              "RelativeDocumentMoniker": "Middleware\\TokenValidation.cs",
-              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Middleware\\TokenValidation.cs",
-              "RelativeToolTip": "Middleware\\TokenValidation.cs",
-              "ViewState": "AQIAAA8AAAAAAAAAAAAAACAAAAAeAAAA",
+              "Title": "IEventService.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\IEventService.cs",
+              "RelativeDocumentMoniker": "Services\\IEventService.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\IEventService.cs",
+              "RelativeToolTip": "Services\\IEventService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-09T11:11:51.424Z"
+              "WhenOpened": "2024-05-13T15:56:02.146Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "User.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Models\\User.cs",
+              "RelativeDocumentMoniker": "Models\\User.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Models\\User.cs",
+              "RelativeToolTip": "Models\\User.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:41:08.59Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "EventMapper.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\AutoMapper\\EventMapper.cs",
+              "RelativeDocumentMoniker": "AutoMapper\\EventMapper.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\AutoMapper\\EventMapper.cs",
+              "RelativeToolTip": "AutoMapper\\EventMapper.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABAAAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:39:26.966Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "EventParticipantResponse.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantResponse.cs",
+              "RelativeDocumentMoniker": "DTOs\\Event\\EventParticipantResponse.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantResponse.cs",
+              "RelativeToolTip": "DTOs\\Event\\EventParticipantResponse.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:37:41.648Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "EventParticipantRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantRequest.cs",
+              "RelativeDocumentMoniker": "DTOs\\Event\\EventParticipantRequest.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\DTOs\\Event\\EventParticipantRequest.cs",
+              "RelativeToolTip": "DTOs\\Event\\EventParticipantRequest.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAHAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:37:15.258Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "UserController.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\UserController.cs",
+              "RelativeDocumentMoniker": "Controllers\\UserController.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\UserController.cs",
+              "RelativeToolTip": "Controllers\\UserController.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:34:04.371Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "EventController.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\EventController.cs",
+              "RelativeDocumentMoniker": "Controllers\\EventController.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Controllers\\EventController.cs",
+              "RelativeToolTip": "Controllers\\EventController.cs",
+              "ViewState": "AQIAAG0AAAAAAAAAAAAQwHsAAAAJAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:34:01.705Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UserService.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\UserService.cs",
+              "RelativeDocumentMoniker": "Services\\UserService.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\UserService.cs",
+              "RelativeToolTip": "Services\\UserService.cs",
+              "ViewState": "AQIAAFEAAAAAAAAAAIA6wGcAAAAoAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:33:45.99Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "EventService.cs",
+              "DocumentMoniker": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\EventService.cs",
+              "RelativeDocumentMoniker": "Services\\EventService.cs",
+              "ToolTip": "C:\\Users\\Magdalena\\Desktop\\CaptureIt\\Services\\EventService.cs",
+              "RelativeToolTip": "Services\\EventService.cs",
+              "ViewState": "AQIAAD8AAAAAAAAAAAAlwEIAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-05-13T15:33:43.466Z",
+              "EditorCaption": ""
             }
           ]
         }

@@ -11,6 +11,7 @@ namespace CaptureIt.AutoMapper
         {
             CreateMap<BadgeRequest, Badge>();
             CreateMap<Badge, BadgeResponse>();
+            CreateMap<BadgeUpdate, Badge>();
         }
 
     }

@@ -2,7 +2,6 @@
 {
     public class EventRequest
     {
-        public int EventId { get; set; }
 
         public int OwnerId { get; set; }
 

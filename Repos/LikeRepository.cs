@@ -57,5 +57,11 @@ namespace CaptureIt.Repos
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetLikeCount(int pictureId)
+        {
+            return await _context.Likes.CountAsync(like => like.PictureId == pictureId);
+        }
+     
     }
 }

@@ -36,27 +36,17 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet("{id}")]
-        [Authorize]
         public async Task<ActionResult<EventResponse>> Get(int id)
         {
-            var userId = HttpContext.Items["UserId"] as string;
             var @event = await _eventService.GetById(id);
             if (@event == null)
             {
                 _logger.LogError($"Event with id {id} not found.");
                 return NotFound($"Event with id {id} not found.");
             }
-
-            if (!@event.Participants.Any(p => p.UserId.ToString() == userId))
-            {
-                // If the user is not a participant, return unauthorized
-                _logger.LogError($"User {userId} is not authorized to access event with id {id}.");
-                return Unauthorized($"User is not authorized to access event with id {id}.");
-            }
-
-
             return Ok(@event);
         }
+
 
         [HttpPost]
         public async Task<ActionResult<EventResponse>> Post(EventRequest eventRequest)
@@ -78,22 +68,11 @@ namespace CaptureIt.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, EventRequest eventRequest)
+        public async Task<IActionResult> Put(int id, EventUpdate eventUpdate)
         {
-            if (id != eventRequest.EventId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID does not match EventId in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match EventId in the request body.");
-            }
+            
 
-            var owner = await _userService.GetById(eventRequest.OwnerId);
-            if (owner == null)
-            {
-                _logger.LogError($"User with ID {eventRequest.OwnerId} not found.");
-                return NotFound($"User with ID {eventRequest.OwnerId} not found.");
-            }
-
-            var result = await _eventService.Update(id, eventRequest);
+            var result = await _eventService.Update(id, eventUpdate);
 
             if (result == null)
             {
@@ -114,63 +93,88 @@ namespace CaptureIt.Controllers
                 return NotFound($"Event with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Event with ID {id} successfully deleted.");
         }
 
-
-    [HttpPost("{eventId}/participants/{userId}")]
-        public async Task<IActionResult> AddParticipantToEvent(int eventId, int userId)
+        [HttpGet("{eventId}/participants")]
+        public async Task<ActionResult<IEnumerable<EventParticipantResponse>>> GetEventParticipantsByEventId(int eventId)
         {
             var eventExists = await _eventService.GetById(eventId);
             if (eventExists == null)
             {
-                _logger.LogError($"Event with ID {eventId} not found.");
-                return NotFound($"Event with ID {eventId} not found.");
+                _logger.LogError($"Event not found.");
+                return NotFound($"Event not found.");
+            }
+
+            var participants = await _eventService.GetEventParticipant(eventId);
+
+            if (participants == null)
+            {
+                _logger.LogError($"No participants found for event with ID {eventId}.");
+                return NotFound($"No participants found for event with ID {eventId}.");
+            }
+
+            return Ok(participants);
+        }
+
+
+
+        [HttpPost("participants/")]
+        public async Task<ActionResult<EventParticipantResponse>> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest)
+        {
+            var eventExists = await _eventService.GetById(eventParticipantRequest.EventId);
+            if (eventExists == null)
+            {
+                _logger.LogError($"Event not found.");
+                return NotFound($"Event not found.");
+            }
+
+            var userExists = await _userService.GetById(eventParticipantRequest.UserId);
+            if (userExists == null)
+            {
+                _logger.LogError($"User not found.");
+                return NotFound($"User not found.");
+            }
+
+            var eventParticipantResponse = await _eventService.AddParticipantToEvent(eventParticipantRequest);
+            if (eventParticipantResponse == null)
+            {
+                _logger.LogError($"Failed to add event.");
+                return StatusCode(500, "Failed to add event.");
+            }
+            return CreatedAtAction(nameof(Get), new { id = eventParticipantResponse.EventId }, eventParticipantResponse);
+
+           
+        }
+    
+
+        [HttpDelete("{eventId}/participant/{userId}")]
+        public async Task<IActionResult> RemoveParticipantFromEvent(int eventId, int userId)
+        {
+            var eventExists = await _eventService.GetById(eventId);
+            if (eventExists == null)
+            {
+                _logger.LogError($"Event not found.");
+                return NotFound($"Event not found.");
             }
 
             var userExists = await _userService.GetById(userId);
             if (userExists == null)
             {
-                _logger.LogError($"User with ID {userId} not found.");
-                return NotFound($"User with ID {userId} not found.");
-            }
-
-            var result = await _eventService.AddParticipantToEvent(eventId, userId);
-            if (!result)
-            {
-                _logger.LogError($"Failed to add user with ID {userId} to event with ID {eventId}.");
-                return StatusCode(500, $"Failed to add user with ID {userId} to event with ID {eventId}.");
-            }
-
-            return Ok($"User with ID {userId} successfully added to event with ID {eventId}.");
-        }
-
-        [HttpDelete("{eventId}/participants/{userId}")]
-        public async Task<IActionResult> RemoveParticipantFromEvent(int eventId, int userId)
-        {
-            var eventEntity = await _eventService.GetById(eventId);
-            if (eventEntity == null)
-            {
-                _logger.LogError($"Event with ID {eventId} not found.");
-                return NotFound($"Event with ID {eventId} not found.");
-            }
-
-            var isUserParticipant = eventEntity.Participants.Any(p => p.UserId == userId);
-            if (!isUserParticipant)
-            {
-                _logger.LogError($"User with ID {userId} is not a participant in event with ID {eventId}.");
-                return BadRequest($"User with ID {userId} is not a participant in event with ID {eventId}.");
+                _logger.LogError($"User not found.");
+                return NotFound($"User not found.");
             }
 
             var result = await _eventService.RemoveParticipantFromEvent(eventId, userId);
             if (!result)
             {
-                _logger.LogError($"Failed to remove user with ID {userId} from event with ID {eventId}.");
-                return StatusCode(500, $"Failed to remove user with ID {userId} from event with ID {eventId}.");
+                _logger.LogError("This user is not a participant.");
+                return StatusCode(500, "This user is not a participant.");
             }
 
             return Ok($"User with ID {userId} successfully removed from event with ID {eventId}.");
         }
-
     }
 }
+
+

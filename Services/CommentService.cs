@@ -37,7 +37,7 @@ namespace CaptureIt.Services
             return _mapper.Map<CommentResponse>(comment);
         }
 
-        public async Task<CommentResponse> Update(int id, CommentRequest commentRequest)
+        public async Task<CommentResponse> Update(int id, CommentUpdate commentUpdate)
         {
             var comment = await _commentRepository.GetById(id);
             if (comment == null)
@@ -45,7 +45,7 @@ namespace CaptureIt.Services
                 return null;
             }
 
-            _mapper.Map(commentRequest, comment);
+            _mapper.Map(commentUpdate, comment);
 
             await _commentRepository.Update(comment);
             return _mapper.Map<CommentResponse>(comment);
@@ -62,6 +62,12 @@ namespace CaptureIt.Services
             await _commentRepository.Delete(id);
             return true;
         }
+
+        public async Task<int> GetCommentCount(int pictureId)
+        {
+            return await _commentRepository.GetCommentCount(pictureId);
+        }
+
     }
 }
 

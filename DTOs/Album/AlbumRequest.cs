@@ -2,7 +2,6 @@
 {
     public class AlbumRequest
     {
-        public int AlbumId { get; set; }
 
         public int EventId { get; set; }
 

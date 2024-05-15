@@ -2,6 +2,7 @@
 using CaptureIt.DTOs.Picture;
 using CaptureIt.Models;
 using CaptureIt.Repos;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -37,7 +38,7 @@ namespace CaptureIt.Services
             return _mapper.Map<PictureResponse>(picture);
         }
 
-        public async Task<PictureResponse> Update(int id, PictureRequest pictureRequest)
+        public async Task<PictureResponse> Update(int id, PictureUpdate pictureUpdate)
         {
             var picture = await _pictureRepository.GetById(id);
             if (picture == null)
@@ -45,7 +46,7 @@ namespace CaptureIt.Services
                 return null;
             }
 
-            _mapper.Map(pictureRequest, picture);
+            _mapper.Map(pictureUpdate, picture);
 
             await _pictureRepository.Update(picture);
             return _mapper.Map<PictureResponse>(picture);
@@ -62,5 +63,7 @@ namespace CaptureIt.Services
             await _pictureRepository.Delete(id);
             return true;
         }
+        
     }
 }
+

@@ -1,6 +1,9 @@
-﻿using CaptureIt.DTOs.PasswordRecoveryRequest;
+﻿using CaptureIt.DTOs.PasswordRecovery;
+using CaptureIt.DTOs.PasswordRecoveryRequest;
+using CaptureIt.DTOs.User;
 using CaptureIt.Services;
 using Microsoft.AspNetCore.Mvc;
+using Org.BouncyCastle.Ocsp;
 using System.Data.Entity.Validation;
 using System.Net.Mail;
 
@@ -55,10 +58,48 @@ namespace CaptureIt.Controllers
                 return StatusCode(500, "Error occurred while sending recovery code email");
             }
 
+
             await _passwordRecoveryService.Add(user.UserId, recoveryCode, expirationTime);
 
             return Ok("Recovery code generated successfully");
         }
+
+        [HttpPut("change-password")]
+        public async Task<IActionResult> ForgotPassword(string username, int recoveryCode, NewPassword newPassword)
+        {
+            var user = await _userService.GetByUsername(username);
+            if (user == null)
+                return NotFound("User not found");
+
+            var passwordRecovery = await _passwordRecoveryService.GetByUserId(user.UserId);
+            if (passwordRecovery == null || passwordRecovery.RecoveryCode != recoveryCode)
+                return BadRequest("Invalid recovery code");
+            
+
+            if (DateTime.UtcNow > passwordRecovery.ExpirationTime)
+                return BadRequest("Recovery code has expired");
+            
+
+            if (newPassword.Password != null)
+            {
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(newPassword.Password);
+                newPassword.Password = hashedPassword;
+            }
+
+            var result = await _userService.Update(username, recoveryCode, newPassword);
+
+            if (result == null)
+            {
+                _logger.LogError("Failed to update password.");
+                return StatusCode(500,"Failed to update password.");
+            }
+
+
+            return Ok("Password changed successfully");
+        }
+
+
+
 
         private int GenerateRecoveryCode()
         {

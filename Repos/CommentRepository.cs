@@ -17,16 +17,16 @@ namespace CaptureIt.Repos
         public async Task<IEnumerable<Comment>> GetAll()
         {
             return await _context.Comments
-                .Include(p => p.UserId)
-                .Include(p => p.PictureId)
+                .Include(p => p.User)
+                .Include(p => p.Picture)
                 .ToListAsync();
         }
 
         public async Task<Comment> GetById(int id)
         {
             return await _context.Comments
-                .Include(p => p.UserId)
-                .Include(p => p.PictureId)
+                .Include(p => p.User)
+                .Include(p => p.Picture)
                 .FirstOrDefaultAsync(p => p.CommentId == id);
         }
 
@@ -55,6 +55,11 @@ namespace CaptureIt.Repos
             _context.Comments.Remove(comment);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<int> GetCommentCount(int pictureId)
+        {
+            return await _context.Comments.CountAsync(comment => comment.PictureId == pictureId);
         }
     }
 }

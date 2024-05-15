@@ -8,7 +8,7 @@ namespace CaptureIt.Services
         Task<IEnumerable<BadgeResponse>> GetAll();
         Task<BadgeResponse> GetById(int id);
         Task<BadgeResponse> Add(BadgeRequest badgeRequest);
-        Task<BadgeResponse> Update(int id, BadgeRequest badgeRequest);
+        Task<BadgeResponse> Update(int id, BadgeUpdate badgeUpdate);
         Task<bool> Delete(int id);
     }
 }

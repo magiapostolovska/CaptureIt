@@ -150,3 +150,6 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\refint\CaptureIt.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\CaptureIt.pdb
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\CaptureIt.genruntimeconfig.cache
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\ref\CaptureIt.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Release\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Release\net8.0\MailKit.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Release\net8.0\MimeKit.dll

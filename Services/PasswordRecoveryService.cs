@@ -1,5 +1,7 @@
 ﻿using AutoMapper;
+using CaptureIt.DTOs.Album;
 using CaptureIt.DTOs.PasswordRecovery;
+using CaptureIt.DTOs.PasswordRecoveryRequest;
 using CaptureIt.DTOs.User;
 using CaptureIt.Models;
 using CaptureIt.Repos;
@@ -28,6 +30,15 @@ namespace CaptureIt.Services
             var passwordRecovery = _mapper.Map<PasswordRecovery>(passwordRecoveryResponse);
             await _passwordRecoveryRepository.Add(passwordRecovery);
         }
+
+        public async Task<PasswordRecoveryResponse> GetByUserId(int userId)
+        {
+            
+            var passwordRecovery = await _passwordRecoveryRepository.GetByUserId(userId);
+            return _mapper.Map<PasswordRecoveryResponse>(passwordRecovery);
+        }
+
+
     }
 }
 

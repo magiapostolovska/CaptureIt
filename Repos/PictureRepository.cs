@@ -18,16 +18,16 @@ namespace CaptureIt.Repos
         public async Task<IEnumerable<Picture>> GetAll()
         {
             return await _context.Pictures
-                .Include(p => p.AlbumId)
-                .Include(p => p.AuthorId)
+                .Include(p => p.Album)
+                .Include(p => p.Author)
                 .ToListAsync();
         }
 
         public async Task<Picture> GetById(int id)
         {
             return await _context.Pictures
-                .Include(p => p.AlbumId)
-                .Include(p => p.AuthorId)
+                .Include(p => p.Album)
+                .Include(p => p.Author)
                 .FirstOrDefaultAsync(p => p.PictureId == id);
         }
 
@@ -52,6 +52,12 @@ namespace CaptureIt.Repos
             {
                 return false;
             }
+            var likesToDelete = _context.Likes.Where(like => like.PictureId == id);
+            _context.Likes.RemoveRange(likesToDelete);
+
+            var commentsToDelete = _context.Comments.Where(comment => comment.PictureId == id);
+            _context.Comments.RemoveRange(commentsToDelete);
+
 
             _context.Pictures.Remove(picture);
             await _context.SaveChangesAsync();

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.User;
 using CaptureIt.Services;
+using CaptureIt.Models;
 
 namespace CaptureIt.Controllers
 {
@@ -41,28 +42,17 @@ namespace CaptureIt.Controllers
             return Ok(user);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<UserResponse>> Post(UserRequest userRequest)
-        {
-            var userResponse = await _userService.Add(userRequest);
-            if (userResponse == null)
-            {
-                _logger.LogError("Failed to add user.");
-                return StatusCode(500, "Failed to add user.");
-            }
-            return CreatedAtAction(nameof(Get), new { id = userResponse.UserId }, userResponse);
-        }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, UserRequest userRequest)
+        public async Task<IActionResult> Put(int id, UserUpdate userUpdate)
         {
-            if (id != userRequest.UserId)
+            if (userUpdate.Password != null)
             {
-                _logger.LogError("Mismatched IDs: URL ID does not match UserId in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match UserId in the request body.");
+                string hashedPassword = BCrypt.Net.BCrypt.HashPassword(userUpdate.Password);
+                userUpdate.Password = hashedPassword;
             }
 
-            var result = await _userService.Update(id, userRequest);
+            var result = await _userService.Update(id, userUpdate);
 
             if (result == null)
             {
@@ -70,7 +60,7 @@ namespace CaptureIt.Controllers
                 return StatusCode(500, $"Failed to update user with ID {id}.");
             }
 
-            return Ok(result);
+            return Ok("User updated successfully.");
         }
 
         [HttpDelete("{id}")]
@@ -83,7 +73,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"User with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"User with ID {id} successfully deleted.");
         }
     }
 }

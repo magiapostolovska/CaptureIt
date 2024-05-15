@@ -10,6 +10,11 @@ namespace CaptureIt.AutoMapper
         {
             CreateMap<EventRequest, Event>();
             CreateMap<Event, EventResponse>();
+            CreateMap<EventUpdate, Event>();
+            CreateMap<EventParticipantRequest, Event>()
+                 .ForMember(dest => dest.Participants, opt => opt.Ignore());
+            CreateMap<Event, EventParticipantResponse>();
+            CreateMap<Event, EventParticipantList>();
         }    
     }
 }

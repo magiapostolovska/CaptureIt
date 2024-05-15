@@ -35,7 +35,7 @@ namespace CaptureIt.Services
             return _mapper.Map<BadgeResponse>(badge);
         }
 
-        public async Task<BadgeResponse> Update(int id, BadgeRequest badgeRequest)
+        public async Task<BadgeResponse> Update(int id, BadgeUpdate badgeUpdate)
         {
             var badge = await _badgeRepository.GetById(id);
             if (badge == null)
@@ -43,7 +43,7 @@ namespace CaptureIt.Services
                 return null;
             }
 
-            _mapper.Map(badgeRequest, badge);
+            _mapper.Map(badgeUpdate, badge);
 
             await _badgeRepository.Update(badge);
             return _mapper.Map<BadgeResponse>(badge);

@@ -48,33 +48,22 @@ namespace CaptureIt.Controllers
         [HttpPost]
         public async Task<ActionResult<BadgeResponse>> Post(BadgeRequest badgeRequest)
         {
-            
-            var existingBadge = await _badgeService.GetById(badgeRequest.BadgeId);
-            if (existingBadge != null)
-            {
-                _logger.LogError($"Badge with id {badgeRequest.BadgeId} already exists in the database and cannot be added again.");
-                return BadRequest($"Album with id {badgeRequest.BadgeId} already exists in the database and cannot be added again.");
-            }
-
+           
             var badgeResponse = await _badgeService.Add(badgeRequest);
             if (badgeResponse == null)
             {
-                _logger.LogError($"Failed to add badge with id {badgeRequest.BadgeId}.");
-                return StatusCode(500, $"Failed to add badge with id {badgeRequest.BadgeId}.");
+                _logger.LogError($"Failed to add badge.");
+                return StatusCode(500, $"Failed to add badge.");
             }
             return CreatedAtAction(nameof(Get), new { id = badgeResponse.BadgeId }, badgeResponse);
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(int id, BadgeRequest badgeRequest)
+        public async Task<IActionResult> Put(int id, BadgeUpdate badgeUpdate)
         {
-            if (id != badgeRequest.BadgeId)
-            {
-                _logger.LogError($"Mismatched IDs: URL ID does not match BadgeId in the request body.");
-                return BadRequest("Mismatched IDs: URL ID does not match BadgeId in the request body.");
-            }
+           
 
-            var result = await _badgeService.Update(id, badgeRequest);
+            var result = await _badgeService.Update(id, badgeUpdate);
 
             if (result == null)
             {
@@ -97,7 +86,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"Badge with ID {id} not found.");
             }
 
-            return NoContent();
+            return Ok($"Badge with ID {id} successfully deleted.");
         }
 
     }

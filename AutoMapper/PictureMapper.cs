@@ -10,6 +10,7 @@ namespace CaptureIt.AutoMapper
         {
             CreateMap<PictureRequest, Picture>();
             CreateMap<Picture, PictureResponse>();
+            CreateMap<PictureUpdate,  Picture>();
         }
 
     }
