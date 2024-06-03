@@ -10,6 +10,8 @@ namespace CaptureIt.AutoMapper
         {
             CreateMap<LikeRequest, Like>();
             CreateMap<Like, LikeResponse>();
+            CreateMap<LikeUser, Like>();
+            
         }
     }
 }

@@ -1,6 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.Picture;
 using CaptureIt.Services;
+using CaptureIt.DTOs;
+using CaptureIt.DTOs.Event;
+using CaptureIt.DTOs.Comment;
+using CaptureIt.DTOs.Album;
+using System.Security.Claims;
+using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
 
 namespace CaptureIt.Controllers
 {
@@ -27,16 +33,33 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PictureResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<PictureResponse>>> Get(DateTime createdAt = default, int albumId = default, int pageNumber = 1, int pageSize =100)
         {
-            var pictures = await _pictureService.GetAll();
-            if (pictures == null)
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize > 100 ? 100 : pageSize;
+
+            var pictures = await _pictureService.GetAll(createdAt, albumId);
+            var pagedPictures = pictures
+                 .Skip((pageNumber - 1) * pageSize)
+                 .Take(pageSize)
+                 .ToList();
+
+            if (!pagedPictures.Any())
             {
                 _logger.LogInformation("No pictures found.");
                 return NotFound("No pictures found.");
             }
-            return Ok(pictures);
-        }
+            var totalRecords = pictures.Count();
+            var response = new PagedResponse<PictureResponse>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedPictures
+            };
+
+            return Ok(response);
+        } 
 
         [HttpGet("{id}")]
         public async Task<ActionResult<PictureResponse>> Get(int id)
@@ -60,55 +83,123 @@ namespace CaptureIt.Controllers
                 return NotFound($"Album with id {pictureRequest.AlbumId} not found.");
             }
 
-            var author = await _userService.GetById(pictureRequest.AuthorId);
-            if (author == null)
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
             {
-                _logger.LogError($"User with id {pictureRequest.AuthorId} not found.");
-                return NotFound($"User with id {pictureRequest.AuthorId} not found.");
+
+                return Unauthorized();
             }
 
-            var pictureResponse = await _pictureService.Add(pictureRequest);
+
+            var userId = userIdClaim.Value;
+
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            var user = await _userService.GetById(userIdInt);
+            if (user == null)
+            {
+                _logger.LogError($"User with id {userId} not found.");
+                return NotFound($"User with id {userId} not found.");
+            }
+
+            var newPicture = new PictureRequest
+            {
+                AlbumId = pictureRequest.AlbumId,
+                AuthorId = userIdInt,
+                ImageUrl = pictureRequest.ImageUrl,
+                Description = pictureRequest.Description
+             };
+
+            var pictureResponse = await _pictureService.Add(newPicture);
+
             if (pictureResponse == null)
             {
                 _logger.LogError($"Failed to add picture.");
                 return StatusCode(500, "Failed to add picture.");
             }
+
+            var currentTime = DateTime.Now;
+            pictureResponse.CreatedAt = currentTime;
+            pictureResponse.CreatedBy = user.Username;
+
+            var pictureUpdate = new PictureAuthor
+            {
+                CreatedBy = pictureResponse.CreatedBy,
+                CreatedAt = pictureResponse.CreatedAt
+            };
+
+            var updatedPictureResponse = await _pictureService.Update(pictureResponse.PictureId, pictureUpdate);
+            if (updatedPictureResponse == null)
+            {
+                _logger.LogError("Failed to update picture.");
+                return StatusCode(500, "Failed to update picture.");
+            }
+
+            int numberOfPhotos = await _pictureService.GetNumberOfPhotos(pictureRequest.AlbumId);
+            var albumUpdate = new AlbumNumberOfPhotos { NumberOfPhotos = numberOfPhotos };
+            var updateResult = await _albumService.UpdateNumberOfPhotos(pictureRequest.AlbumId, albumUpdate);
+            if (updateResult == null)
+            {
+                _logger.LogError("Failed to update picture like count.");
+                return StatusCode(500, "Failed to update picture like count.");
+            }
+
+
             return CreatedAtAction(nameof(Get), new { id = pictureResponse.PictureId }, pictureResponse);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(int id, PictureRequest pictureRequest)
-        //{
-        //    if (id != pictureRequest.PictureId)
-        //    {
-        //        _logger.LogError($"Mismatched IDs: URL ID {id} does not match PictureId {pictureRequest.PictureId} in the request body.");
-        //        return BadRequest("Mismatched IDs: URL ID does not match PictureId in the request body.");
-        //    }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(int id, PictureUpdate pictureUpdate)
+        {
+            var existingPicture = await _pictureService.GetById(id);
 
-        //    var album = await _albumService.GetById(pictureRequest.AlbumId);
-        //    if (album == null)
-        //    {
-        //        _logger.LogError($"Album with ID {pictureRequest.AlbumId} not found.");
-        //        return NotFound($"Album with ID {pictureRequest.AlbumId} not found.");
-        //    }
+            if (existingPicture == null)
+            {
+                return NotFound("No picture found by that id.");
+            }
 
-        //    var author = await _userService.GetById(pictureRequest.AuthorId);
-        //    if (author == null)
-        //    {
-        //        _logger.LogError($"User with ID {pictureRequest.AuthorId} not found.");
-        //        return NotFound($"User with ID {pictureRequest.AuthorId} not found.");
-        //    }
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
 
-        //    var result = await _pictureService.Update(id, pictureRequest);
+                return Unauthorized();
+            }
 
-        //    if (result == null)
-        //    {
-        //        _logger.LogError($"Failed to update picture with ID {id}.");
-        //        return StatusCode(500, $"Failed to update picture with ID {id}.");
-        //    }
+            var userId = userIdClaim.Value;
 
-        //    return Ok(result);
-        //}
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            var user = await _userService.GetById(userIdInt);
+
+            var currentTime = DateTime.Now;
+            pictureUpdate.UpdatedAt = currentTime;
+
+
+            var newPicture = new PictureUpdate
+            { 
+                Description = pictureUpdate.Description,
+                UpdatedBy = user.Username,
+                UpdatedAt = pictureUpdate.UpdatedAt
+
+    };
+
+
+            var result = await _pictureService.Update(id, newPicture);
+
+            if (result == null)
+            {
+                _logger.LogError($"Failed to update picture with ID {id}.");
+                return StatusCode(500, $"Failed to update picture with ID {id}.");
+            }
+
+            return Ok(result);
+        }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
@@ -121,32 +212,6 @@ namespace CaptureIt.Controllers
             }
 
             return Ok($"Picture with ID {id} successfully removed from the album.");
-        }
-
-        [HttpGet("likes/{id}")]
-        public async Task<string> GetLikeCount(int id)
-        {
-            var likeCount = await _likeService.GetLikeCount(id);
-            var picture = await _pictureService.GetById(id);
-            if (picture != null)
-            {
-                var pictureUpdate = new PictureUpdate { LikeCount = likeCount };
-                await _pictureService.Update(id, pictureUpdate);
-            }
-            return ($"Likes: {likeCount}");
-        }
-
-        [HttpGet("comments/{id}")]
-        public async Task<string> GetCommentCount(int id)
-        {
-            var commentCount = await _commentService.GetCommentCount(id);
-            var picture = await _pictureService.GetById(id);
-            if (picture != null)
-            {
-                var pictureUpdate = new PictureUpdate { CommentCount = commentCount };
-                await _pictureService.Update(id, pictureUpdate);
-            }
-            return ($"Comments: {commentCount}");
         }
 
     }

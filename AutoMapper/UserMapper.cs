@@ -16,6 +16,8 @@ namespace CaptureIt.AutoMapper
             CreateMap<RegisterModel, User>();
             CreateMap<UserUpdate, User>();
             CreateMap<NewPassword, User>();
+            CreateMap<User, UserDetails>();
+            CreateMap<User,EventParticipant>();
 
 
 

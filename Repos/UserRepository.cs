@@ -125,7 +125,24 @@ namespace CaptureIt.Repos
             {
                 return false;
             }
-        } 
+        }
+        public async Task<CaptureIt.DTOs.User.EventParticipant> GetParticipantById(int userId)
+        {
+            var userEntity = await _context.Users.FindAsync(userId);
+            if (userEntity == null)
+            {
+                return null;
+            }
+
+            var eventParticipant = new CaptureIt.DTOs.User.EventParticipant
+            {
+                UserId = userEntity.UserId,
+                Username = userEntity.Username,
+                ProfilePicture = userEntity.ProfilePicture
+            };
+
+            return eventParticipant;
+        }
     }
 
     

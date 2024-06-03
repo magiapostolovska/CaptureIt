@@ -30,6 +30,12 @@ namespace CaptureIt.Services
             return _mapper.Map<LikeResponse>(like);
         }
 
+        public async Task<LikeResponse> GetByIds(int userId, int pictureId)
+        {
+            var like = await _likeRepository.GetByIds(userId, pictureId);
+            return _mapper.Map<LikeResponse>(like);
+        }
+
         public async Task<LikeResponse> Add(LikeRequest likeRequest)
         {
             var like = _mapper.Map<Like>(likeRequest);
@@ -37,19 +43,6 @@ namespace CaptureIt.Services
             return _mapper.Map<LikeResponse>(like);
         }
 
-        public async Task<LikeResponse> Update(int id, LikeRequest likeRequest)
-        {
-            var like = await _likeRepository.GetById(id);
-            if (like == null)
-            {
-                return null;
-            }
-
-            _mapper.Map(likeRequest, like);
-
-            await _likeRepository.Update(like);
-            return _mapper.Map<LikeResponse>(like);
-        }
 
         public async Task<bool> Delete(int id)
         {
@@ -66,6 +59,19 @@ namespace CaptureIt.Services
         public async Task<int> GetLikeCount(int pictureId)
         {
             return await _likeRepository.GetLikeCount(pictureId);
+        }
+        public async Task<LikeResponse> Update(int id, LikeUser likeUpdate)
+        {
+            var like = await _likeRepository.GetById(id);
+            if (like == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(likeUpdate, like);
+
+            await _likeRepository.Update(like);
+            return _mapper.Map<LikeResponse>(like);
         }
     }
 }

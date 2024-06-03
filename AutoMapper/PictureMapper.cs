@@ -11,6 +11,9 @@ namespace CaptureIt.AutoMapper
             CreateMap<PictureRequest, Picture>();
             CreateMap<Picture, PictureResponse>();
             CreateMap<PictureUpdate,  Picture>();
+            CreateMap<PictureLikes, Picture>();
+            CreateMap<PictureComments, Picture>();
+            CreateMap<PictureAuthor, Picture>();    
         }
 
     }

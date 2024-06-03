@@ -17,14 +17,15 @@ namespace CaptureIt.Repos
         {
             return await _context.Albums
                 .Include(p => p.Event)
-
+                .Include(p => p.Creator)
                 .ToListAsync();
 
         }
         public async Task<Album> GetById(int id) 
         {
             return await _context.Albums
-                .Include(p => p.Event) 
+                .Include(p => p.Event)
+                .Include(p => p.Creator)
                 .FirstOrDefaultAsync(p => p.AlbumId == id);
 
         }

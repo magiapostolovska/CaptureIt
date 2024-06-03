@@ -39,6 +39,12 @@ namespace CaptureIt.Middleware
             if (context.Request.Path.StartsWithSegments("/api/PasswordRecovery/forgot-password"))
             {
                 await _next(context);
+                return;
+            }
+            if (context.Request.Path.StartsWithSegments("/api/PasswordRecovery/change-password"))
+            {
+                await _next(context);
+                return;
             }
 
             if (token == null)

@@ -1,4 +1,5 @@
 ﻿using CaptureIt.Data;
+using CaptureIt.DTOs.Like;
 using CaptureIt.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -20,6 +21,7 @@ namespace CaptureIt.Repos
             return await _context.Likes
 
                 .Include(p => p.Picture)
+                .Include(p => p.User)
                 .ToListAsync();
         }
 
@@ -28,7 +30,17 @@ namespace CaptureIt.Repos
             return await _context.Likes
 
                 .Include(p => p.Picture)
+                .Include(p => p.User)
                 .FirstOrDefaultAsync(p => p.LikeId == id);
+        }
+
+        public async Task<Like> GetByIds(int userId, int pictureId)
+        {
+            return await _context.Likes
+
+                .Include(p => p.Picture)
+                .Include(p => p.User)
+                .FirstOrDefaultAsync(p => p.UserId == userId && p.PictureId == pictureId);
         }
 
         public async Task<Like> Add(Like like)

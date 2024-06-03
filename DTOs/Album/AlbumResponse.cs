@@ -15,16 +15,17 @@ namespace CaptureIt.DTOs.Album
 
         public int NumberOfPhotos { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
 
         public DateTime? UpdatedAt { get; set; }
 
-        public string CreatedBy { get; set; } = null!;
+        public string? CreatedBy { get; set; }
 
         public string? UpdatedBy { get; set; }
 
-        public UserResponse Creator { get; set; }
-        public EventResponse Event { get; set; }
+        public UserDetails Creator { get; set; }
+
+        public EventDetails Event { get; set; }
 
     }
 }

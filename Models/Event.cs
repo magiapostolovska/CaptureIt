@@ -39,13 +39,13 @@ public partial class Event
     public bool IsPrivate { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
 
     [StringLength(30)]
-    public string CreatedBy { get; set; } = null!;
+    public string? CreatedBy { get; set; } 
 
     [StringLength(30)]
     public string? UpdatedBy { get; set; }

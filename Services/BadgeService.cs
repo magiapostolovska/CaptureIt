@@ -19,6 +19,7 @@ namespace CaptureIt.Services
         public async Task<IEnumerable<BadgeResponse>> GetAll()
         {
             var badges = await _badgeRepository.GetAll();
+           
             return _mapper.Map<IEnumerable<BadgeResponse>>(badges);
         }
 

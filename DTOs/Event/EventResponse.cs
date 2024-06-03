@@ -21,13 +21,11 @@ namespace CaptureIt.DTOs.Event
         public string Invite { get; set; } = null!;
 
         public bool IsPrivate { get; set; }
-        public DateTime CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
-        public string CreatedBy { get; set; } = null!;
+        public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
-
-        public AlbumResponse Album { get; set; }
-        public UserResponse Owner { get; set; }
-        public List<UserResponse> Participants { get; set; }
+        public UserDetails Owner {  get; set; }
+        
     }
 }

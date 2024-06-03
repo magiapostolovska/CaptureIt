@@ -153,3 +153,7 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Debug\net8.0\CaptureIt.sourcelink.json
 C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
 C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\MailKit.dll
 C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\MimeKit.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\Microsoft.Azure.CognitiveServices.Vision.Face.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\Microsoft.Rest.ClientRuntime.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\Microsoft.Rest.ClientRuntime.Azure.dll
+C:\Users\Magdalena\Desktop\CaptureIt\bin\Debug\net8.0\Newtonsoft.Json.dll

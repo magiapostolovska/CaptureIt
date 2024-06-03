@@ -2,6 +2,7 @@
 using CaptureIt.DTOs.User;
 using CaptureIt.Services;
 using CaptureIt.Models;
+using CaptureIt.DTOs;
 
 namespace CaptureIt.Controllers
 {
@@ -19,15 +20,34 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<UserResponse>>> Get(int pageNumber = 1, int pageSize = 100)
         {
+            pageNumber = pageNumber < 1? 1 : pageNumber;
+            pageSize = pageSize > 100? 100 : pageSize;
+
             var users = await _userService.GetAll();
-            if (users == null)
+
+            var pagedUsers = users 
+                .Skip((pageNumber-1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            if (!pagedUsers.Any())
             {
                 _logger.LogInformation("No users found.");
                 return NotFound("No users found.");
             }
-            return Ok(users);
+
+            var totalRecords = users.Count();
+            var response = new PagedResponse<UserResponse>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedUsers
+            };
+
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -46,6 +66,13 @@ namespace CaptureIt.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, UserUpdate userUpdate)
         {
+            var existingUser = await _userService.GetById(id);
+
+            if (existingUser == null)
+            {
+                return NotFound("No user found by that id.");
+            }
+
             if (userUpdate.Password != null)
             {
                 string hashedPassword = BCrypt.Net.BCrypt.HashPassword(userUpdate.Password);

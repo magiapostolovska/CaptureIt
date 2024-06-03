@@ -27,7 +27,7 @@ namespace CaptureIt.DTOs.User
         public string? Bio { get; set; }
         public string? ProfilePicture { get; set; }
 
-        public List<EventResponse> EventsNavigation { get; set; }
+      
 
 
 

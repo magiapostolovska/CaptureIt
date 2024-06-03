@@ -1,9 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.Event;
 using CaptureIt.Services;
+using System.Linq;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 using CaptureIt.Models;
+using CaptureIt.DTOs.Picture;
+using CaptureIt.DTOs;
+using CaptureIt.DTOs.Comment;
 
 namespace CaptureIt.Controllers
 {
@@ -24,15 +28,34 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<EventResponse>>> Get(DateTime startDate = default, DateTime endDate = default, int pageNumber = 1, int pageSize = 100)
         {
-            var events = await _eventService.GetAll();
-            if (events == null)
-            {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize > 100 ? 100 : pageSize;
+
+            
+            var events = await _eventService.GetAll(startDate, endDate);
+
+            var pagedEvents = events
+            .Skip((pageNumber - 1) * pageSize)
+            .Take(pageSize)
+             .ToList();
+
+            if (!pagedEvents.Any()) {
                 _logger.LogInformation("No events found.");
                 return NotFound("No events found.");
             }
-            return Ok(events);
+
+            var totalRecords = events.Count();
+
+            var response = new PagedResponse<EventResponse>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedEvents
+            };
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -51,28 +74,114 @@ namespace CaptureIt.Controllers
         [HttpPost]
         public async Task<ActionResult<EventResponse>> Post(EventRequest eventRequest)
         {
-            var owner = await _userService.GetById(eventRequest.OwnerId);
-            if (owner == null)
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
             {
-                _logger.LogError($"User with id {eventRequest.OwnerId} not found.");
-                return NotFound($"User with id {eventRequest.OwnerId} not found.");
+
+                return Unauthorized();
             }
 
-            var eventResponse = await _eventService.Add(eventRequest);
+ 
+            var userId = userIdClaim.Value;
+
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            var owner = await _userService.GetById(userIdInt);
+            if (owner == null)
+            {
+                _logger.LogError($"User with id {userId} not found.");
+                return NotFound($"User with id {userId} not found.");
+            }
+
+            var newEvent = new EventRequest
+            {
+                EventName = eventRequest.EventName,
+                StartDateTime = eventRequest.StartDateTime,
+                EndDateTime = eventRequest.EndDateTime,
+                Location = eventRequest.Location,
+                Description = eventRequest.Description,
+                QrCodeUrl = eventRequest.QrCodeUrl,
+                Invite = eventRequest.Invite,
+                IsPrivate = eventRequest.IsPrivate,
+                OwnerId = userIdInt
+            };
+
+            var eventResponse = await _eventService.Add(newEvent);
             if (eventResponse == null)
             {
                 _logger.LogError($"Failed to add event.");
                 return StatusCode(500, "Failed to add event.");
             }
+
+            var currentTime = DateTime.Now;
+            eventResponse.CreatedAt = currentTime;
+            eventResponse.CreatedBy = owner.Username;
+
+            var eventUpdate = new EventOwner
+            {
+                CreatedBy = eventResponse.CreatedBy,
+                CreatedAt = eventResponse.CreatedAt
+            };
+
+            var updatedEventResponse = await _eventService.Update(eventResponse.EventId, eventUpdate);
+            if (updatedEventResponse == null)
+            {
+                _logger.LogError("Failed to update picture.");
+                return StatusCode(500, "Failed to update picture.");
+            }
+
             return CreatedAtAction(nameof(Get), new { id = eventResponse.EventId }, eventResponse);
         }
 
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, EventUpdate eventUpdate)
         {
+
+            var existingEvent = await _eventService.GetById(id);
+
+            if (existingEvent == null)
+            {
+                return NotFound("No event found by that id.");
+            }
+
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+
+                return Unauthorized();
+            }
+
+            var userId = userIdClaim.Value;
+
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            var user = await _userService.GetById(userIdInt);
+
+            var currentTime = DateTime.Now;
+            eventUpdate.UpdatedAt = currentTime;
+           
+
+            var newEvent = new EventUpdate
+            {
+                EventName = eventUpdate.EventName,
+                StartDateTime = eventUpdate.StartDateTime,
+                EndDateTime = eventUpdate.EndDateTime,
+                Location = eventUpdate.Location,
+                Description = eventUpdate.Description,
+                IsPrivate = eventUpdate.IsPrivate,
+                UpdatedBy = user.Username,
+                UpdatedAt = eventUpdate.UpdatedAt
+            };
             
 
-            var result = await _eventService.Update(id, eventUpdate);
+
+        var result = await _eventService.Update(id, newEvent);
 
             if (result == null)
             {

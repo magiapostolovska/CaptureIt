@@ -19,6 +19,7 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Asp
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.Internal.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Azure.CognitiveServices.Vision.Face.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Bcl.AsyncInterfaces.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Data.SqlClient.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.EntityFrameworkCore.dll
@@ -38,9 +39,12 @@ C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Ide
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.IdentityModel.Tokens.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.OpenApi.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Rest.ClientRuntime.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Rest.ClientRuntime.Azure.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.SqlServer.Server.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Microsoft.Win32.SystemEvents.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\MimeKit.dll
+C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Newtonsoft.Json.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.Swagger.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\Magdalena\Desktop\CaptureIt\obj\Release\net8.0\PubTmp\Out\Swashbuckle.AspNetCore.SwaggerUI.dll

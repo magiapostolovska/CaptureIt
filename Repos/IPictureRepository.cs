@@ -9,6 +9,7 @@ namespace CaptureIt.Repos
         Task<Picture> Add(Picture picture);
         Task<Picture> Update(Picture picture);
         Task<bool> Delete(int id);
+        Task<int> GetNumberOfPhotos(int albumId);
 
     }
 }

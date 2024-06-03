@@ -2,8 +2,8 @@
 {
     public class PictureUpdate
     {
-        public int LikeCount { get; set; }
-
-        public int CommentCount { get; set; }
+        public string? Description { get; set; }
+        public string? UpdatedBy { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

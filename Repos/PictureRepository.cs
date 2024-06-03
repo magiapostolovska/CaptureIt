@@ -63,6 +63,11 @@ namespace CaptureIt.Repos
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<int> GetNumberOfPhotos(int albumId)
+        {
+            return await _context.Pictures.CountAsync(picture => picture.AlbumId == albumId);
+        }
     }
 }
 

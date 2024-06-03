@@ -16,7 +16,9 @@ public partial class Like
     public int PictureId { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
+
+    public string? CreatedBy { get; set; }
 
     [ForeignKey("PictureId")]
     [InverseProperty("Likes")]

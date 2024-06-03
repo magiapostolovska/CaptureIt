@@ -21,18 +21,19 @@ public partial class Picture
     public string ImageUrl { get; set; } = null!;
 
     [StringLength(30)]
-    public string CreatedBy { get; set; } = null!;
+    public string? CreatedBy { get; set; } 
 
     [StringLength(30)]
     public string? UpdatedBy { get; set; }
 
     [Column(TypeName = "datetime")]
-    public DateTime CreatedAt { get; set; }
+    public DateTime? CreatedAt { get; set; }
 
     [Column(TypeName = "datetime")]
     public DateTime? UpdatedAt { get; set; }
 
     public int AuthorId { get; set; }
+    public string? Description { get; set; }
 
     [ForeignKey("AlbumId")]
     [InverseProperty("Pictures")]

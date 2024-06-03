@@ -20,7 +20,7 @@ namespace CaptureIt.Authentication
     [Required(ErrorMessage = "Password is required")]
     public string Password { get; set; }
 
-    public DateOnly? DateOfBirth { get; set; }
+    public DateOnly DateOfBirth { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Gender { get; set; }
 

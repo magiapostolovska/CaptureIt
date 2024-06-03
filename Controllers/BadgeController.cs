@@ -3,6 +3,7 @@ using CaptureIt.Models;
 using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.Bagde;
 using CaptureIt.Services;
+using CaptureIt.DTOs;
 
 namespace CaptureIt.Controllers
 {
@@ -22,15 +23,34 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BadgeResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<BadgeResponse>>> Get(int pageNumber = 1, int pageSize = 100)
         {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize > 100 ? 100 : pageSize;
+
             var badges = await _badgeService.GetAll();
-            if (badges == null)
+
+            var pagedBadges = badges 
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            
+            if (!pagedBadges.Any())
             {
                 _logger.LogInformation("No badges found.");
                 return NotFound("No badges found.");
             }
-            return Ok(badges);
+
+            var totalRecords = badges.Count();
+
+            var response = new PagedResponse<BadgeResponse>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedBadges
+            };
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -61,7 +81,12 @@ namespace CaptureIt.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Put(int id, BadgeUpdate badgeUpdate)
         {
-           
+            var existingBadge = await _badgeService.GetById(id);
+
+            if (existingBadge == null)
+            {
+                return NotFound("No badge found by that id.");
+            }
 
             var result = await _badgeService.Update(id, badgeUpdate);
 

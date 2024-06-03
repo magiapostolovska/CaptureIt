@@ -12,6 +12,7 @@ namespace CaptureIt.AutoMapper
             CreateMap<CommentRequest, Comment>();
             CreateMap<Comment, CommentResponse>();
             CreateMap<CommentUpdate, Comment>();
+            CreateMap<CommentUser, Comment>();
         }
 
     }

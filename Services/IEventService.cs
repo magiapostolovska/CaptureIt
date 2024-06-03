@@ -5,7 +5,7 @@ namespace CaptureIt.Services
 {
     public interface IEventService
     {
-        Task<IEnumerable<EventResponse>> GetAll();
+        Task<IEnumerable<EventResponse>> GetAll(DateTime startDate = default, DateTime endDate = default);
         Task<EventResponse> GetById(int id);
         Task<EventResponse> Add(EventRequest eventRequest);
         Task<EventResponse> Update(int id, EventUpdate eventupdate);
@@ -13,6 +13,7 @@ namespace CaptureIt.Services
         Task<EventParticipantList> GetEventParticipant(int eventId);
         Task<EventParticipantResponse> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest);        
         Task<bool> RemoveParticipantFromEvent(int eventId, int userId);
+        Task<EventResponse> Update(int id, EventOwner eventUpdate);
 
     }
 }

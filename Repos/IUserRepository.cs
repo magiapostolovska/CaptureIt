@@ -15,6 +15,7 @@ namespace CaptureIt.Repos
         Task<User> GetByUsername(string username);
         Task<bool> AddBadge(int userId, int badgeId);
         Task<bool> RemoveBadge(int userId, int badgeId);
+        Task<CaptureIt.DTOs.User.EventParticipant> GetParticipantById(int userId);
 
 
 

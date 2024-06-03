@@ -18,9 +18,18 @@ namespace CaptureIt.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<CommentResponse>> GetAll()
+        public async Task<IEnumerable<CommentResponse>> GetAll(DateTime? createdAt = default, int pictureId = default)
         {
             var comments = await _commentRepository.GetAll();
+            if (createdAt.HasValue)
+            {
+                comments = comments.Where(e => e.CreatedAt.HasValue && e.CreatedAt.Value.Date >= createdAt.Value.Date);
+            }
+
+            if (pictureId != default)
+            {
+                comments = comments.Where(e => e.PictureId == pictureId);
+            }
             return _mapper.Map<IEnumerable<CommentResponse>>(comments);
         }
 
@@ -66,6 +75,20 @@ namespace CaptureIt.Services
         public async Task<int> GetCommentCount(int pictureId)
         {
             return await _commentRepository.GetCommentCount(pictureId);
+        }
+
+        public async Task<CommentResponse> Update(int id, CommentUser commentUpdate)
+        {
+            var comment = await _commentRepository.GetById(id);
+            if (comment == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(commentUpdate, comment);
+
+            await _commentRepository.Update(comment);
+            return _mapper.Map<CommentResponse>(comment);
         }
 
     }

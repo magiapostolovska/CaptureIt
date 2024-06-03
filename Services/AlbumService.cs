@@ -2,6 +2,8 @@
 using CaptureIt.DTOs.Album;
 using CaptureIt.Repos;
 using CaptureIt.Models;
+using CaptureIt.DTOs.Picture;
+using Microsoft.Extensions.Logging;
 
 namespace CaptureIt.Services
 {
@@ -16,10 +18,18 @@ namespace CaptureIt.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<AlbumResponse>> GetAll()
+        public async Task<IEnumerable<AlbumResponse>> GetAll(DateTime? createdAt = default, int eventId = default)
         {
-            var album = await _albumRepository.GetAll();
-            return _mapper.Map<IEnumerable<AlbumResponse>>(album);
+            var albums = await _albumRepository.GetAll();
+            if (createdAt.HasValue)
+            {
+                albums = albums.Where(e => e.CreatedAt.HasValue && e.CreatedAt.Value.Date >= createdAt.Value.Date);
+            }
+            if (eventId != default)
+            {
+                albums = albums.Where(a => a.EventId == eventId);
+            }
+            return _mapper.Map<IEnumerable<AlbumResponse>>(albums);
 
         }
         public async Task<AlbumResponse> GetById(int id)
@@ -61,5 +71,34 @@ namespace CaptureIt.Services
             await _albumRepository.Delete(id);
             return true;
         }
+
+        public async Task<AlbumResponse> UpdateNumberOfPhotos(int id, AlbumNumberOfPhotos albumUpdate)
+        {
+            var album = await _albumRepository.GetById(id);
+            if (album == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(albumUpdate, album);
+
+            await _albumRepository.Update(album);
+            return _mapper.Map<AlbumResponse>(album);
+        }
+        public async Task<AlbumResponse> Update(int id, AlbumCreator albumUpdate)
+        {
+            var album = await _albumRepository.GetById(id);
+            if (album == null)
+            {
+                return null;
+            }
+
+            _mapper.Map(albumUpdate, album);
+
+            await _albumRepository.Update(album);
+            return _mapper.Map<AlbumResponse>(album);
+
+        }
+
     }
 }

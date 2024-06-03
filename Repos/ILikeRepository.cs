@@ -6,6 +6,7 @@ namespace CaptureIt.Repos
     {
         Task<IEnumerable<Like>> GetAll();
         Task<Like> GetById(int id);
+        Task<Like> GetByIds(int userId, int pictureId);
         Task<Like> Add(Like like);
         Task<Like> Update(Like like);
         Task<bool> Delete(int id);

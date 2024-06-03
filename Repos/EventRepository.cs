@@ -20,6 +20,7 @@ namespace CaptureIt.Repos
         {
             return await _context.Events
                 .Include(p => p.Owner)
+                
                 .ToListAsync();
         }
 
@@ -78,8 +79,9 @@ namespace CaptureIt.Repos
         public async Task<Event> GetEventParticipant(int eventId)
         {
             return await _context.Events
-                                        .Include(e => e.Participants)
-                                        .FirstOrDefaultAsync(e => e.EventId == eventId);      
+               .Include(e => e.Participants)
+               .ThenInclude(e => e.EventsNavigation)
+               .FirstOrDefaultAsync(e => e.EventId == eventId);      
         }
 
 

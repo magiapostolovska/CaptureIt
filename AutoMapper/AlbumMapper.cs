@@ -11,6 +11,9 @@ namespace CaptureIt.AutoMapper
             CreateMap<AlbumRequest, Album>();
             CreateMap<Album, AlbumResponse>();
             CreateMap<AlbumUpdate, Album>();
+            CreateMap<AlbumNumberOfPhotos, Album>();
+            CreateMap<AlbumCreator, Album>();
+            CreateMap<Album, AlbumDetails>();
         }
     }
 }

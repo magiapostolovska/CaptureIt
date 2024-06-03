@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CaptureIt.DTOs.Like;
 using CaptureIt.Services;
+using CaptureIt.DTOs.Picture;
+using CaptureIt.DTOs;
+using CaptureIt.DTOs.Comment;
+using System.Security.Claims;
 
 namespace CaptureIt.Controllers
 {
@@ -23,15 +27,33 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LikeResponse>>> Get()
+        public async Task<ActionResult<IEnumerable<LikeResponse>>> Get(int pageNumber = 1, int pageSize = 100)
         {
+            pageNumber = pageNumber < 1 ? 1 : pageNumber;
+            pageSize = pageSize > 100 ? 100 : pageSize;
+
             var likes = await _likeService.GetAll();
-            if (likes == null)
+
+            var pagedLikes = likes
+                .Skip((pageNumber - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            if (!pagedLikes.Any())
             {
                 _logger.LogInformation("No likes found.");
                 return NotFound("No likes found.");
             }
-            return Ok(likes);
+
+            var totalRecords = likes.Count();
+            var response = new PagedResponse<LikeResponse>
+            {
+                TotalRecords = totalRecords,
+                PageNumber = pageNumber,
+                PageSize = pageSize,
+                Data = pagedLikes
+            };
+            return Ok(response);
         }
 
         [HttpGet("{id}")]
@@ -48,14 +70,8 @@ namespace CaptureIt.Controllers
 
         [HttpPost]
         public async Task<ActionResult<LikeResponse>> Post(LikeRequest likeRequest)
-        {
-            var user = await _userService.GetById(likeRequest.UserId);
-            if (user == null)
-            {
-                _logger.LogError($"User with id {likeRequest.UserId} not found.");
-                return NotFound($"User with id {likeRequest.UserId} not found.");
-            }
 
+        { 
             var picture = await _pictureService.GetById(likeRequest.PictureId);
             if (picture == null)
             {
@@ -63,48 +79,77 @@ namespace CaptureIt.Controllers
                 return NotFound($"Picture with id {likeRequest.PictureId} not found.");
             }
 
-            var likeResponse = await _likeService.Add(likeRequest);
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+
+                return Unauthorized();
+            }
+
+
+            var userId = userIdClaim.Value;
+
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            var user = await _userService.GetById(userIdInt);
+            if (user == null)
+            {
+                _logger.LogError($"User with id {userId} not found.");
+                return NotFound($"User with id {userId} not found.");
+            }
+
+            var existingLike = await _likeService.GetByIds(userIdInt, likeRequest.PictureId);
+            if (existingLike != null)
+            {
+                return BadRequest("User has already liked this picture.");
+            }
+
+
+            var newLike = new LikeRequest
+            {
+                UserId = userIdInt,
+                PictureId = likeRequest.PictureId
+            };
+
+            var likeResponse = await _likeService.Add(newLike);
             if (likeResponse == null)
             {
                 _logger.LogError($"Failed to add like.");
                 return StatusCode(500, "Failed to add like.");
             }
+
+            var currentTime = DateTime.Now;
+            likeResponse.CreatedAt = currentTime;
+            likeResponse.CreatedBy = user.Username;
+
+            var likeUpdate = new LikeUser
+            {
+                CreatedBy = likeResponse.CreatedBy,
+                CreatedAt = likeResponse.CreatedAt
+            };
+
+            var updatedLikeResponse = await _likeService.Update(likeResponse.LikeId, likeUpdate);
+            if (updatedLikeResponse == null)
+            {
+                _logger.LogError("Failed to update picture.");
+                return StatusCode(500, "Failed to update picture.");
+            }
+
+            int likeCount = await _likeService.GetLikeCount(likeRequest.PictureId);
+            var pictureUpdate = new PictureLikes { LikeCount = likeCount };
+            var updateResult = await _pictureService.UpdateLikeCount(likeRequest.PictureId, pictureUpdate);
+            if (updateResult == null)
+            {
+                _logger.LogError("Failed to update picture like count.");
+                return StatusCode(500, "Failed to update picture like count.");
+            }
+
             return CreatedAtAction(nameof(Get), new { id = likeResponse.LikeId }, likeResponse);
         }
 
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> Put(int id, LikeRequest likeRequest)
-        //{
-        //    if (id != likeRequest.LikeId)
-        //    {
-        //        _logger.LogError($"Mismatched IDs: URL ID does not match LikeId in the request body.");
-        //        return BadRequest("Mismatched IDs: URL ID does not match LikeId in the request body.");
-        //    }
-
-        //    var user = await _userService.GetById(likeRequest.UserId);
-        //    if (user == null)
-        //    {
-        //        _logger.LogError($"User with ID {likeRequest.UserId} not found.");
-        //        return NotFound($"User with ID {likeRequest.UserId} not found.");
-        //    }
-
-        //    var picture = await _pictureService.GetById(likeRequest.PictureId);
-        //    if (picture == null)
-        //    {
-        //        _logger.LogError($"Picture with ID {likeRequest.PictureId} not found.");
-        //        return NotFound($"Picture with ID {likeRequest.PictureId} not found.");
-        //    }
-
-        //    var result = await _likeService.Update(id, likeRequest);
-
-        //    if (result == null)
-        //    {
-        //        _logger.LogError($"Failed to update like with ID {id}.");
-        //        return StatusCode(500, $"Failed to update like with ID {id}.");
-        //    }
-
-        //    return Ok(result);
-        //}
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
