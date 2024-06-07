@@ -68,6 +68,8 @@ namespace CaptureIt.Repos
         {
             return await _context.Pictures.CountAsync(picture => picture.AlbumId == albumId);
         }
+
+       
     }
 }
 

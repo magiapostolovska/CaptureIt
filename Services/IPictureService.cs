@@ -15,5 +15,6 @@ namespace CaptureIt.Services
 
         Task<int> GetNumberOfPhotos(int albumId);
         Task<PictureResponse> Update(int id, PictureAuthor pictureUpdate);
+        Task<string> AnalyzePicture(int pictureId);
     }
 }

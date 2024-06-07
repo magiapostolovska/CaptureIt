@@ -18,14 +18,18 @@ using Microsoft.OpenApi.Models;
 using System.Net.Mail;
 using System.Net;
 using CaptureIt;
+using Microsoft.Azure.CognitiveServices.Vision.Face;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHttpClient();
 
+builder.Services.AddLogging();
 builder.Services.AddControllers();
 
 builder.Services.AddControllers()
-    .AddJsonOptions(options => //novo
+    .AddJsonOptions(options => 
     {
         options.JsonSerializerOptions.ReferenceHandler = null;
     });
@@ -84,7 +88,7 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ILikeService, LikeService>();
 builder.Services.AddScoped<IPasswordRecoveryService, PasswordRecoveryService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
-
+builder.Services.AddScoped<IFaceService, FaceService>();
 
 
 builder.Services.AddAutoMapper(typeof(AlbumMapper));
@@ -101,11 +105,21 @@ builder.Services.AddSingleton<SmtpClient>(provider =>
     var smtpClient = new SmtpClient("smtp.gmail.com")
     {
         Port = 587,
-        Credentials = new NetworkCredential("magiapostolovska29@gmail.com", "asur ijcp zbgd wiig"),
+        Credentials = new NetworkCredential("capture.it.cit@gmail.com", "zobo bgxf vdth tihv"),
         EnableSsl = true
     };
     return smtpClient;
 });
+
+builder.Services.AddSingleton<IFaceClient>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var subscriptionKey = configuration["AzureFaceApi:SubscriptionKey"];
+    var endpoint = configuration["AzureFaceApi:Endpoint"];
+    return new FaceClient(new ApiKeyServiceClientCredentials(subscriptionKey)) { Endpoint = endpoint };
+});
+
+
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -122,6 +136,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 builder.Services.AddAuthorization();
 
 
+
 var app = builder.Build();
 
 
@@ -134,25 +149,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseMiddleware<TokenValidation>();
-
-
 app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
-
-
-
-
-
 app.UseHttpsRedirection();
-
-
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
 });
-
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -160,9 +164,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
-
 app.MapControllers();
-
 app.Run();
 

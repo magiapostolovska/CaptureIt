@@ -635,6 +635,38 @@
     ]
   },
   {
+    "ContainingType": "CaptureIt.Controllers.FaceController",
+    "Method": "DetectFace",
+    "RelativePath": "api/Face/detect",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CaptureIt.Controllers.FaceController",
+    "Method": "IdentifyFaces",
+    "RelativePath": "api/Face/identify",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "imageUrl",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "CaptureIt.Controllers.LikeController",
     "Method": "Get",
     "RelativePath": "api/Like",
@@ -894,6 +926,22 @@
     "Method": "Delete",
     "RelativePath": "api/Picture/{id}",
     "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "CaptureIt.Controllers.PictureController",
+    "Method": "AnalyzePicture",
+    "RelativePath": "api/Picture/analyze/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [

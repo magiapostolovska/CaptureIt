@@ -7,6 +7,7 @@ using CaptureIt.DTOs.Comment;
 using CaptureIt.DTOs.Album;
 using System.Security.Claims;
 using Microsoft.Azure.CognitiveServices.Vision.Face.Models;
+using Newtonsoft.Json;
 
 namespace CaptureIt.Controllers
 {
@@ -214,5 +215,29 @@ namespace CaptureIt.Controllers
             return Ok($"Picture with ID {id} successfully removed from the album.");
         }
 
+
+        [HttpGet("analyze/{id}")]
+        public async Task<IActionResult> AnalyzePicture(int id)
+        {
+            var image = await _pictureService.GetById(id);
+
+            if (image != null && image.ImageUrl != null)
+            {
+                var analysisResult = await _pictureService.AnalyzePicture(id);
+
+                var jsonResponse = JsonConvert.DeserializeObject(analysisResult);
+
+                var formattedJson = JsonConvert.SerializeObject(jsonResponse, Formatting.Indented);
+
+                return Ok(formattedJson);
+            }
+            else
+            {
+                return NotFound($"Picture with ID {id} not found.");
+            }
+        }
     }
+
+
 }
+
