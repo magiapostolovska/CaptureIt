@@ -450,6 +450,11 @@
         "IsRequired": false
       },
       {
+        "Name": "ownerId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "pageNumber",
         "Type": "System.Int32",
         "IsRequired": false
@@ -674,6 +679,11 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "pictureId",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
       {
         "Name": "pageNumber",
         "Type": "System.Int32",

@@ -11,7 +11,7 @@ namespace CaptureIt.Repos
         Task<Event> Update(Event @event);
         Task<bool> Delete(int id);
         Task<Event> GetEventParticipant(int eventId);
-        Task<Event> AddParticipantToEvent(int eventId, int userId);        
+        Task<Event> AddParticipantToEvent(int eventId, int? userId);        
         Task<bool> RemoveParticipantFromEvent(int eventId, int userId);
 
     }

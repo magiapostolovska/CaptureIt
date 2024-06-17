@@ -7,8 +7,6 @@ using IndexAttribute = Microsoft.EntityFrameworkCore.IndexAttribute;
 
 namespace CaptureIt.Models;
 
-[Index("Invite", Name = "Invite(Events)", IsUnique = true)]
-[Index("QrCodeUrl", Name = "QrCodeUrl(Events)", IsUnique = true)]
 public partial class Event
 {
     [Key]
@@ -31,10 +29,10 @@ public partial class Event
     public string? Description { get; set; }
 
     [StringLength(50)]
-    public string QrCodeUrl { get; set; } = null!;
+    public string? QrCodeUrl { get; set; } = null!;
 
     [StringLength(50)]
-    public string Invite { get; set; } = null!;
+    public string? Invite { get; set; } = null!;
 
     public bool IsPrivate { get; set; }
 

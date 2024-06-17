@@ -3,6 +3,7 @@ using CaptureIt.DTOs.Event;
 using CaptureIt.DTOs.User;
 using CaptureIt.Models;
 using CaptureIt.Repos;
+using System.Xml.Linq;
 
 
 namespace CaptureIt.Services
@@ -20,16 +21,21 @@ namespace CaptureIt.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<EventResponse>> GetAll(DateTime startDate = default, DateTime endDate = default)
+        public async Task<IEnumerable<EventResponse>> GetAll(DateTime startDate = default, DateTime endDate = default, int ownerId = default)
         {
             var events = await _eventRepository.GetAll();
-            if(startDate != default)
+            if (startDate != default)
             {
-                events = events.Where(e=> e.StartDateTime.Date >= startDate.Date);
+                events = events.Where(e => e.StartDateTime.Date >= startDate.Date);
             }
             if (endDate != default)
             {
                 events = events.Where(e => e.EndDateTime.Date <= endDate.Date);
+
+            }
+            if (ownerId != default)
+            {
+                events = events.Where(e => e.OwnerId == ownerId);
             }
             return _mapper.Map<IEnumerable<EventResponse>>(events);
         }
@@ -83,30 +89,34 @@ namespace CaptureIt.Services
             }
 
             var participantUserIds = eventEntity.Participants.Select(p => p.UserId).ToList();
-
             var participantDetails = new List<EventParticipant>();
 
             foreach (var userId in participantUserIds)
             {
                 var detail = await _userRepository.GetParticipantById(userId);
-                participantDetails.Add(detail);
+                if (detail != null)
+                {
+                    var participant = new EventParticipant
+                    {
+                        UserId = detail.UserId,
+                        Username = detail.Username,
+                        ProfilePicture = detail.ProfilePicture
+                        // Map other properties as needed
+                    };
+                    participantDetails.Add(participant);
+                }
             }
-
-            var eventParticipants = participantDetails.Select(participantDetail => new EventParticipant
-            {
-                UserId = participantDetail.UserId,
-                Username = participantDetail.Username,
-                ProfilePicture = participantDetail.ProfilePicture
-            }).ToList();
 
             var eventParticipantResponse = new EventParticipantList
             {
-                EventId = eventEntity.EventId,
-                Participants = eventParticipants
+                EventId = eventId,
+                Participants = participantDetails
             };
 
             return eventParticipantResponse;
         }
+
+
 
         public async Task<EventParticipantResponse> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest)
         {
@@ -143,6 +153,13 @@ namespace CaptureIt.Services
 
             await _eventRepository.Update(@event);
             return _mapper.Map<EventResponse>(@event);
+        }
+
+        public async Task<bool> IsParticipant(int eventId, int userId)
+        {
+            
+            var eventEntity = await _eventRepository.GetById(eventId);
+            return eventEntity != null && eventEntity.Participants.Any(p => p.UserId == userId);
         }
     }
 }

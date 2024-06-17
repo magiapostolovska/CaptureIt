@@ -6,7 +6,6 @@
         public DateTime StartDateTime { get; set; }
         public DateTime EndDateTime { get; set; }
         public string? Location { get; set; }
-
         public string? Description { get; set; }
         public bool IsPrivate { get; set; }
         public DateTime? UpdatedAt { get; set; }

@@ -237,7 +237,5 @@ namespace CaptureIt.Controllers
             }
         }
     }
-
-
 }
 

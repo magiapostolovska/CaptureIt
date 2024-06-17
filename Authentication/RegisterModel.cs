@@ -23,6 +23,7 @@ namespace CaptureIt.Authentication
     public DateOnly DateOfBirth { get; set; }
     public string? PhoneNumber { get; set; }
     public string? Gender { get; set; }
+    public string? ProfilePicture {  get; set; }
 
 
 }

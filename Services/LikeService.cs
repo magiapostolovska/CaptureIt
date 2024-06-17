@@ -2,8 +2,10 @@
 using CaptureIt.DTOs.Like;
 using CaptureIt.Models;
 using CaptureIt.Repos;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace CaptureIt.Services
 {
@@ -18,9 +20,13 @@ namespace CaptureIt.Services
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<LikeResponse>> GetAll()
+        public async Task<IEnumerable<LikeResponse>> GetAll(int pictureId = default)
         {
             var likes = await _likeRepository.GetAll();
+            if (pictureId != default)
+            {
+                likes = likes.Where(e => e.PictureId == pictureId);
+            }
             return _mapper.Map<IEnumerable<LikeResponse>>(likes);
         }
 
@@ -30,9 +36,9 @@ namespace CaptureIt.Services
             return _mapper.Map<LikeResponse>(like);
         }
 
-        public async Task<LikeResponse> GetByIds(int userId, int pictureId)
+        public async Task<LikeResponse> GetByPictureAndUserId(int userId, int pictureId)
         {
-            var like = await _likeRepository.GetByIds(userId, pictureId);
+            var like = await _likeRepository.GetByPictureAndUserId(userId, pictureId);
             return _mapper.Map<LikeResponse>(like);
         }
 

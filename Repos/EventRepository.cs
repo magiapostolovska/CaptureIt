@@ -20,7 +20,9 @@ namespace CaptureIt.Repos
         {
             return await _context.Events
                 .Include(p => p.Owner)
-                
+                .Include(p => p.Albums)
+                .ThenInclude(a => a.Pictures)
+                .Include(e => e.Participants)
                 .ToListAsync();
         }
 
@@ -28,6 +30,7 @@ namespace CaptureIt.Repos
         {
             return await _context.Events
                 .Include(p => p.Owner)
+                .Include(e => e.Participants)
                 .FirstOrDefaultAsync(p => p.EventId == id);
         }
 
@@ -85,7 +88,7 @@ namespace CaptureIt.Repos
         }
 
 
-        public async Task<Event> AddParticipantToEvent(int eventId, int userId)
+        public async Task<Event> AddParticipantToEvent(int eventId, int? userId)
         {
             try
             {
@@ -137,9 +140,10 @@ namespace CaptureIt.Repos
                 return false;
             }
         }
+     
 
-    
-}
+
+    }
 }
 
 

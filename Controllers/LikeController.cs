@@ -27,12 +27,12 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<LikeResponse>>> Get(int pageNumber = 1, int pageSize = 100)
+        public async Task<ActionResult<IEnumerable<LikeResponse>>> Get(int pictureId = default, int pageNumber = 1, int pageSize = 100)
         {
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
             pageSize = pageSize > 100 ? 100 : pageSize;
 
-            var likes = await _likeService.GetAll();
+            var likes = await _likeService.GetAll(pictureId);
 
             var pagedLikes = likes
                 .Skip((pageNumber - 1) * pageSize)
@@ -101,7 +101,7 @@ namespace CaptureIt.Controllers
                 return NotFound($"User with id {userId} not found.");
             }
 
-            var existingLike = await _likeService.GetByIds(userIdInt, likeRequest.PictureId);
+            var existingLike = await _likeService.GetByPictureAndUserId(userIdInt, likeRequest.PictureId);
             if (existingLike != null)
             {
                 return BadRequest("User has already liked this picture.");

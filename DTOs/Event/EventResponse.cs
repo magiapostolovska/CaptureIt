@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using CaptureIt.DTOs.Album;
 using CaptureIt.DTOs.User;
+using CaptureIt.DTOs.Picture;
 
 namespace CaptureIt.DTOs.Event
 {
@@ -17,8 +18,8 @@ namespace CaptureIt.DTOs.Event
         public string? Location { get; set; }
 
         public string? Description { get; set; }
-        public string QrCodeUrl { get; set; } = null!;
-        public string Invite { get; set; } = null!;
+        public string? QrCodeUrl { get; set; } = null!;
+        public string? Invite { get; set; } = null!;
 
         public bool IsPrivate { get; set; }
         public DateTime? CreatedAt { get; set; }
@@ -26,6 +27,7 @@ namespace CaptureIt.DTOs.Event
         public string? CreatedBy { get; set; }
         public string? UpdatedBy { get; set; }
         public UserDetails Owner {  get; set; }
-        
+        public List<PictureUrl> Pictures { get; set; }
+
     }
 }

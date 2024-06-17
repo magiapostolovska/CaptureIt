@@ -8,8 +8,8 @@
         public DateTime EndDateTime { get; set; }
         public string? Location { get; set; }
         public string? Description { get; set; }
-        public string QrCodeUrl { get; set; } = null!;
-        public string Invite { get; set; } = null!;
+        public string? QrCodeUrl { get; set; } = null!;
+        public string? Invite { get; set; } = null!;
         public bool IsPrivate { get; set; }
        
      

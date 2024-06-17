@@ -38,6 +38,7 @@ namespace CaptureIt.Controllers
         public async Task<ActionResult<UserResponse>> Register(RegisterModel registerModel)
         {
             string hashedPassword = BCrypt.Net.BCrypt.HashPassword(registerModel.Password);
+            string defaultProfilePictureUrl = "https://iconspng.com/_next/image?url=https%3A%2F%2Ficonspng.com%2Fimages%2Fabstract-user-icon-3%2Fabstract-user-icon-3.jpg&w=1080&q=75";
 
             var newUser = new RegisterModel
             {
@@ -48,7 +49,8 @@ namespace CaptureIt.Controllers
                 DateOfBirth = registerModel.DateOfBirth,
                 Username = registerModel.Username,
                 Email = registerModel.Email,
-                Password = hashedPassword
+                Password = hashedPassword,
+                ProfilePicture = string.IsNullOrEmpty(registerModel.ProfilePicture) ? defaultProfilePictureUrl : registerModel.ProfilePicture
             };
 
             var userResponse = await _userService.Register(newUser);

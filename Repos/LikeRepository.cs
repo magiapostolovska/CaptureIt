@@ -34,7 +34,7 @@ namespace CaptureIt.Repos
                 .FirstOrDefaultAsync(p => p.LikeId == id);
         }
 
-        public async Task<Like> GetByIds(int userId, int pictureId)
+        public async Task<Like> GetByPictureAndUserId(int userId, int pictureId)
         {
             return await _context.Likes
 

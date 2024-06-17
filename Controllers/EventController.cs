@@ -8,6 +8,7 @@ using CaptureIt.Models;
 using CaptureIt.DTOs.Picture;
 using CaptureIt.DTOs;
 using CaptureIt.DTOs.Comment;
+using Microsoft.Extensions.Logging;
 
 namespace CaptureIt.Controllers
 {
@@ -28,13 +29,22 @@ namespace CaptureIt.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<EventResponse>>> Get(DateTime startDate = default, DateTime endDate = default, int pageNumber = 1, int pageSize = 100)
+        public async Task<ActionResult<IEnumerable<EventResponse>>> Get(DateTime startDate = default, DateTime endDate = default, int ownerId = default, int pageNumber = 1, int pageSize = 100)
         {
             pageNumber = pageNumber < 1 ? 1 : pageNumber;
             pageSize = pageSize > 100 ? 100 : pageSize;
 
             
-            var events = await _eventService.GetAll(startDate, endDate);
+            var events = await _eventService.GetAll(startDate, endDate, ownerId);
+            if (ownerId != default)
+            {
+                var user = await _userService.GetById(ownerId);
+                if (user == null)
+                {
+                    _logger.LogInformation("No user found by that ID.");
+                    return NotFound("No user found by that ID.");
+                }
+            }
 
             var pagedEvents = events
             .Skip((pageNumber - 1) * pageSize)
@@ -67,8 +77,37 @@ namespace CaptureIt.Controllers
                 _logger.LogError($"Event with id {id} not found.");
                 return NotFound($"Event with id {id} not found.");
             }
+
+            var userIdClaim = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized();
+            }
+
+            var userId = userIdClaim.Value;
+
+            if (!int.TryParse(userId, out int userIdInt))
+            {
+                return BadRequest("Invalid user ID format");
+            }
+
+            if (@event.OwnerId == userIdInt)
+            {
+                return Ok(@event);
+            }
+
+            if (@event.IsPrivate == true)
+            {
+                var isParticipant = await _eventService.IsParticipant(id, userIdInt);
+                if (!isParticipant)
+                {
+                    return StatusCode(403, "You are not a participant in this private event.");
+                }
+            }
+
             return Ok(@event);
         }
+    
 
 
         [HttpPost]
@@ -231,20 +270,48 @@ namespace CaptureIt.Controllers
         [HttpPost("participants/")]
         public async Task<ActionResult<EventParticipantResponse>> AddParticipantToEvent(EventParticipantRequest eventParticipantRequest)
         {
-            var eventExists = await _eventService.GetById(eventParticipantRequest.EventId);
-            if (eventExists == null)
+            var @event = await _eventService.GetById(eventParticipantRequest.EventId);
+            if (@event == null)
             {
                 _logger.LogError($"Event not found.");
                 return NotFound($"Event not found.");
             }
 
-            var userExists = await _userService.GetById(eventParticipantRequest.UserId);
-            if (userExists == null)
+            int userId;
+            if (eventParticipantRequest.UserId.HasValue)
             {
-                _logger.LogError($"User not found.");
-                return NotFound($"User not found.");
+                userId = eventParticipantRequest.UserId.Value;
+            }
+            else if (!string.IsNullOrWhiteSpace(eventParticipantRequest.Username))
+            {
+                var user = await _userService.GetByUsername(eventParticipantRequest.Username);
+                if (user == null)
+                {
+                    _logger.LogError($"User not found.");
+                    return NotFound($"User not found.");
+                }
+                userId = user.UserId;
+            }
+            else
+            {
+                _logger.LogError($"User ID or Username must be provided.");
+                return BadRequest($"User ID or Username must be provided.");
+            }
+            if (@event.OwnerId == userId)
+            {
+                _logger.LogError($"Owner cannot be added as a participant in their own event.");
+                return BadRequest($"Owner cannot be added as a participant in their own event.");
             }
 
+
+            var isParticipant = await _eventService.IsParticipant(eventParticipantRequest.EventId, userId);
+            if (isParticipant)
+            {
+                _logger.LogError($"User is already a participant in this event.");
+                return Conflict($"User is already a participant in this event.");
+            }
+
+            eventParticipantRequest.UserId = userId;
             var eventParticipantResponse = await _eventService.AddParticipantToEvent(eventParticipantRequest);
             if (eventParticipantResponse == null)
             {
@@ -252,10 +319,9 @@ namespace CaptureIt.Controllers
                 return StatusCode(500, "Failed to add event.");
             }
             return CreatedAtAction(nameof(Get), new { id = eventParticipantResponse.EventId }, eventParticipantResponse);
-
-           
         }
-    
+
+
 
         [HttpDelete("{eventId}/participant/{userId}")]
         public async Task<IActionResult> RemoveParticipantFromEvent(int eventId, int userId)

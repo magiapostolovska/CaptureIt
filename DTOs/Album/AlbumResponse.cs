@@ -1,4 +1,5 @@
 ﻿using CaptureIt.DTOs.Event;
+using CaptureIt.DTOs.Picture;
 using CaptureIt.DTOs.User;
 
 namespace CaptureIt.DTOs.Album

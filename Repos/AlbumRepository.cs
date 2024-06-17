@@ -17,6 +17,7 @@ namespace CaptureIt.Repos
         {
             return await _context.Albums
                 .Include(p => p.Event)
+                .Include(p => p.Pictures)
                 .Include(p => p.Creator)
                 .ToListAsync();
 
